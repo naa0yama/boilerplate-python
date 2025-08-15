@@ -46,7 +46,7 @@ sphinx-autobuild = "~2024.10.0"
 sphinx-pyproject = "~0.3.0"
 
 [tool.poetry.group.linting.dependencies]
-mypy = "~1.15.0"
+mypy = "~1.17.0"
 ruff = "^0.12.0"
 
 [tool.poetry.group.tests.dependencies]
