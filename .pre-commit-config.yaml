@@ -38,7 +38,7 @@ repos:
         args: ["-c=.yamllint.yml"]
 
   - repo: https://github.com/biomejs/pre-commit
-    rev: "v1.9.4"
+    rev: "v2.2.0"
     hooks:
       - id: biome-check
         additional_dependencies: ["@biomejs/biome@1.8.3"]
