@@ -32,7 +32,7 @@ __version__: str = "{version!s}"
 
 [tool.poetry.group.dev.dependencies]
 pip = "^25.0.0"
-pre-commit = "~4.2.0"
+pre-commit = "~4.3.0"
 taskipy = "~1.14.0"
 tox = "~4.28.0"
 tox-gh-actions = "~3.3.0"
