@@ -12,7 +12,7 @@ jobs:
       POETRY_VERSION: null
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4.3.0
 
       - name: "get version from .tool-versions"
         run: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: Cache tox environments
         id: cache-tox
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         with:
           path: |
             ~/.cache/pre-commit
