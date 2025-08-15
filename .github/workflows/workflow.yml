@@ -12,7 +12,7 @@ jobs:
       POETRY_VERSION: null
 
     steps:
-      - uses: actions/checkout@v4.3.0
+      - uses: actions/checkout@v5.0.0
 
       - name: "get version from .tool-versions"
         run: |
