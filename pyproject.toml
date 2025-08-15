@@ -32,27 +32,27 @@ __version__: str = "{version!s}"
 
 [tool.poetry.group.dev.dependencies]
 pip = "^25.0.0"
-pre-commit = "~4.2.0"
+pre-commit = "~4.3.0"
 taskipy = "~1.14.0"
-tox = "~4.25.0"
+tox = "~4.28.0"
 tox-gh-actions = "~3.3.0"
 nuitka = "^2.6.8"
 setuptools-scm = "^8.2.0"
 
 [tool.poetry.group.docs.dependencies]
-furo = "~2024.8.0"
+furo = "~2025.7.0"
 sphinx = "~8.2.0"
 sphinx-autobuild = "~2024.10.0"
 sphinx-pyproject = "~0.3.0"
 
 [tool.poetry.group.linting.dependencies]
-mypy = "~1.15.0"
-ruff = "^0.11.0"
+mypy = "~1.17.0"
+ruff = "^0.12.0"
 
 [tool.poetry.group.tests.dependencies]
-pytest = "~8.3.0"
+pytest = "~8.4.0"
 pytest-azurepipelines = "~1.0.4"
-pytest-cov = "~6.1.0"
+pytest-cov = "~6.2.0"
 pytest-mock = "~3.14.0"
 
 [tool.poetry.group.types.dependencies]
