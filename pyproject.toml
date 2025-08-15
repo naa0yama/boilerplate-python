@@ -40,7 +40,7 @@ nuitka = "^2.6.8"
 setuptools-scm = "^8.2.0"
 
 [tool.poetry.group.docs.dependencies]
-furo = "~2024.8.0"
+furo = "~2025.7.0"
 sphinx = "~8.2.0"
 sphinx-autobuild = "~2024.10.0"
 sphinx-pyproject = "~0.3.0"
