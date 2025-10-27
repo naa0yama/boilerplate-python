@@ -37,7 +37,7 @@ taskipy = "~1.14.0"
 tox = "~4.28.0"
 tox-gh-actions = "~3.3.0"
 nuitka = "^2.6.8"
-setuptools-scm = "^8.2.0"
+setuptools-scm = "^9.0.0"
 
 [tool.poetry.group.docs.dependencies]
 furo = "~2025.7.0"
