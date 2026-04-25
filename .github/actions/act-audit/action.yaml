@@ -18,4 +18,5 @@ runs:
 
     - name: Run pip-audit
       shell: bash
-      run: uv run --with pip-audit pip-audit
+      # CVE-2026-3219: pip itself; no fix version available yet (pip is a tooling dep, not a runtime dep)
+      run: uv run --with pip-audit pip-audit --ignore-vuln CVE-2026-3219

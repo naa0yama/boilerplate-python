@@ -39,7 +39,7 @@ linting = [
 	"ruff>=0.12.0",
 ]
 tests = [
-	"pytest>=8.4,<8.5",
+	"pytest>=9.0.3",
 	"pytest-cov>=6.2,<6.3",
 	"pytest-mock>=3.14,<3.15",
 ]
