@@ -1,0 +1,194 @@
+# This file is managed by the boilerplate-python template.
+# Do NOT edit directly — place project-specific overrides in overrides.toml.
+
+[setup]
+description = "Initial project setup"
+run = """
+if [ -d .githooks ]; then chmod +x .githooks/*; fi
+"""
+
+[install]
+description = "Install project dependencies"
+run = "uv sync --group dev --group docs --group linting --group tests --group types"
+
+[build]
+description = "Build distributable binary with Nuitka"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+python -m setuptools_scm --force-write-version-files
+rm -rf build dist
+uv run python -m nuitka \
+	--onefile \
+	--follow-imports \
+	--output-dir=dist \
+	src/pythonboilerplate/cli.py
+"""
+
+[test]
+description = "Run tests"
+run = "uv run pytest"
+
+["test:view"]
+description = "Serve HTML coverage report"
+run = "python3 -m http.server 8000 --directory target/htmlcov/"
+
+[fmt]
+description = "Format code (ruff + dprint)"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+uv run ruff format src tests
+dprint fmt
+"""
+
+["fmt:check"]
+description = "Check formatting (ruff + dprint)"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+uv run ruff format --check src tests
+dprint check
+"""
+
+["ruff:check"]
+description = "Lint with ruff"
+run = "uv run ruff check src tests"
+
+[mypy]
+description = "Type-check with mypy"
+run = "uv run mypy --config-file pyproject.toml src tests"
+
+[lint]
+description = "Run all linters"
+depends = [
+	"fmt:check",
+	"ruff:check",
+	"mypy",
+]
+
+["lint:gh"]
+description = "Lint GitHub Actions workflows"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+actionlint
+ghalint run
+ghalint run-action
+zizmor --persona=pedantic .github/
+"""
+
+["pre-commit"]
+description = "Pre-commit checks (lint + lint:gh)"
+depends = ["lint", "lint:gh"]
+
+["pre-push"]
+description = "Pre-push checks (lint + test + lint:gh)"
+depends = [
+	"lint",
+	"test",
+	"lint:gh",
+]
+
+[docs]
+description = "Build documentation"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+rm -rfv docs/*.rst docs/*.bat docs/Makefile
+uv run sphinx-apidoc -F -e -d 2 -o docs src
+uv run sphinx-build docs docs/_build
+"""
+
+["docs:live"]
+description = "Live-reload documentation server"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+uv run sphinx-autobuild --watch src docs docs/_build
+"""
+
+[clean]
+description = "Remove build artifacts"
+run = """
+rm -rf build dist target .pytest_cache .mypy_cache .ruff_cache
+find . -type d -name __pycache__ -not -path './.venv/*' -exec rm -rf {} + 2>/dev/null || true
+"""
+
+["claudecode:install"]
+description = "Install Claude Code CLI"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+if command -v claude &>/dev/null; then
+	echo "Claude Code is already installed: $(claude --version)"
+	exit 0
+fi
+curl -fsSL https://claude.ai/install.sh | sh
+"""
+
+["codeql:install"]
+description = "Create CodeQL database and download query packs"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+db_dir="tmp/codeql-db"
+
+echo '==> Downloading CodeQL query packs...'
+codeql pack download codeql/python-queries
+
+rm -rf "${db_dir}"
+echo '==> Creating CodeQL database for Python...'
+codeql database create "${db_dir}" \
+	--language=python \
+	--source-root=src \
+	--overwrite
+
+echo "==> CodeQL database created at ${db_dir}"
+echo '    Run analysis: mise run codeql'
+"""
+
+[codeql]
+description = "Run CodeQL analysis (SARIF output)"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+db_dir="tmp/codeql-db"
+sarif_out="tmp/codeql-results.sarif"
+
+if [ ! -d "${db_dir}" ]; then
+	echo 'Error: CodeQL database not found. Run "mise run codeql:install" first.' >&2
+	exit 1
+fi
+
+echo '==> Running CodeQL analysis...'
+codeql database analyze "${db_dir}" codeql/python-queries \
+	--format=sarif-latest \
+	--output="${sarif_out}" \
+	--threads=0
+
+echo "==> Results written to ${sarif_out}"
+"""
+
+[audit]
+description = "Check dependencies for known vulnerabilities"
+run = "uv run --with pip-audit pip-audit"
+
+["badges:init"]
+description = "Initialize badges branch with placeholder SVGs for octocov"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+git checkout --orphan badges
+git rm -rf .
+printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > coverage.svg
+printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > time.svg
+git add coverage.svg time.svg
+git commit -m "chore: initialize badges branch [skip ci]"
+git checkout -
+echo "Badges branch initialized. Run: git push origin badges"
+"""
