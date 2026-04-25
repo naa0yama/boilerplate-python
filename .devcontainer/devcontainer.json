@@ -1,54 +1,69 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python3",
-	"dockerFile": "../Dockerfile",
-	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "image": "mcr.microsoft.com/devcontainers/python:0-3.10-bullseye",
+	"name": "Python3(${localWorkspaceFolderBasename})",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"target": "development",
+		"args": {
+			"TZ": "${localEnv:TZ:Asia/Tokyo}",
+			"USER_GID": "1100",
+			"USER_UID": "1100"
+		}
+	},
+	"initializeCommand": "./.devcontainer/initializeCommand.sh",
+	"postStartCommand": "./.devcontainer/postStartCommand.sh",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {}
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-	// Configure tool-specific properties.
+	"features": {},
+	// Add another local file mount.
+	"mounts": [
+		// Claude Code
+		"type=bind,source=${localEnv:HOME}/.claude,target=/home/cuser/.claude",
+		"type=bind,source=${localEnv:HOME}/.claude.json,target=/home/cuser/.claude.json",
+		// Git
+		"type=bind,source=${localEnv:HOME}/.gitconfig.d,target=/home/cuser/.gitconfig.d",
+		// GitHub
+		"type=bind,source=${localEnv:HOME}/.config/gh,target=/home/cuser/.config/gh",
+		// Cross-project shared: ~/.local/bin (mise/openobserve binary, claude symlink)
+		"type=volume,source=devcontainer-shared-local-bin,target=/home/cuser/.local/bin",
+		// Cross-project shared: mise managed tool installs
+		"type=volume,source=devcontainer-shared-mise,target=/home/cuser/.local/share/mise",
+		// Cross-project shared: claude binary versions (symlink target of ~/.local/bin/claude)
+		"type=volume,source=devcontainer-shared-claude,target=/home/cuser/.local/share/claude"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"biomejs.biome", //                            Biome
-				"charliermarsh.ruff", //                       Ruff
-				"christian-kohler.path-intellisense", //       Path Intellisense
-				"Continue.continue", //                        Continue - Codestral, Claude, and more
-				"DavidAnson.vscode-markdownlint", //           markdownlint
-				"eamodio.gitlens", //                          GitLens — Git supercharged
-				"github.vscode-github-actions", //             GitHub Actions
-				"Gruntfuggly.todo-tree", //                    Todo Tree
-				"littlefoxteam.vscode-python-test-adapter", // Python Test Explorer for Visual Studio Code
-				"markis.code-coverage", //                     Code Coverage
-				"ms-azuretools.vscode-docker", //              Docker
-				"ms-python.mypy-type-checker", //              Mypy Type Checker
-				"ms-python.python", //                         Python
-				"ms-python.vscode-pylance", //                 Pylance
-				"ms-vscode-remote.remote-containers", //       Dev Containers
-				"ms-vscode-remote.remote-wsl", //              WSL
-				"njpwerner.autodocstring", //                  autoDocstring - Python Docstring Generator
-				"oderwat.indent-rainbow", //                   indent-rainbow
-				"redhat.vscode-yaml", //                       YAML
-				"ruiquelhas.vscode-lowercase", //              lowercase
-				"ruiquelhas.vscode-uppercase", //              uppercase
-				"ryu1kn.partial-diff", //                      Partial Diff
-				"saoudrizwan.claude-dev", //                   Cline
-				"tamasfe.even-better-toml", //                 Even Better TOML
-				"usernamehw.errorlens", //                     Error Lens
-				"wholroyd.jinja", //                           Jinja
-				"yzhang.markdown-all-in-one" //                Markdown All in One
+				"charliermarsh.ruff", // 						Ruff
+				"Gruntfuggly.todo-tree", // 					Todo Tree
+				"littlefoxteam.vscode-python-test-adapter", // 	Python Test Explorer for Visual Studio Code
+				"markis.code-coverage", // 						Code Coverage
+				"ms-python.mypy-type-checker", // 				Mypy Type Checker
+				"ms-python.python", // 							Python
+				"ms-python.vscode-pylance", // 					Pylance
+				"ms-vscode-remote.remote-containers", // 		Dev Containers
+				"ms-vscode-remote.remote-wsl", // 				WSL
+				"njpwerner.autodocstring", // 					autoDocstring - Python Docstring Generator
+				"redhat.vscode-yaml", // 						YAML
+				"tamasfe.even-better-toml", // 					Even Better TOML
+				"usernamehw.errorlens", // 						Error Lens
+				"wholroyd.jinja" // 							Jinja
 			],
 			"settings": {
-				"terminal.integrated.defaultProfile.linux": "bash"
+				"window.title": "${localWorkspaceFolderBasename}${separator}${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}${appName}",
+				"dprint.path": "/home/cuser/.local/share/mise/shims/dprint",
+				"remote.autoForwardPorts": true,
+				"remote.autoForwardPortsSource": "process"
 			}
 		}
 	},
+	"otherPortsAttributes": { "onAutoForward": "ignore" },
+	"containerEnv": {
+		"MISE_ENV": "devcontainer",
+		"MISE_GITHUB_TOKEN": "${localEnv:MISE_GITHUB_TOKEN}"
+	},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "vscode"
+	"remoteUser": "cuser",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=delegated",
+	"workspaceFolder": "/app"
 }
