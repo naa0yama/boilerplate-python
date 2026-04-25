@@ -4,142 +4,65 @@
 	 * ABCDE FGHIJ KLMNO PQRST UVWXY Z
 	 ** ======================================================================= */
 	/* ---------------------------------------------------------------------------
-	 * VSCode > Editor */
-	"editor.detectIndentation": false, // ファイルの種類による、 TabSize と InsertSpaces の決定無効,種類ごとに個別に設定する
-	"editor.insertSpaces": true,
-	/* ---------------------------------------------------------------------------
-	 * VSCode > rulers, minimap, view */
-	"editor.guides.indentation": true, //        エディターでインデント ガイドを表示するかどうかを制御します。
-	"editor.renderControlCharacters": true, //   制御文字を表示する
-	"editor.renderLineHighlight": "all", //      選択行を行番号含めすべてハイライト
-	"editor.renderWhitespace": "all", //         半角スペースを常に表示
-	"editor.rulers": [
-		//                                         指定文字で縦ルーラーを表示する
-		80, 100, 120
-	],
-	// 単語に関連したナビゲーションまたは操作を実行するときに、単語の区切り文字として仕様される文字。
-	"editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。",
-	/* ---------------------------------------------------------------------------
-	 * VSCode > 自動フォーマット */
-	"editor.formatOnPaste": true, // ペースト時に自動でフォーマット
-	"editor.formatOnSave": true, // ファイル保存時に自動でフォーマット
-	"editor.formatOnType": true,
-	"editor.formatOnSaveMode": "file",
-	/* ---------------------------------------------------------------------------
 	 * VSCode >  files */
 	"files.associations": {
+		".tagpr": "toml",
 		".yamllint": "yaml",
 		"*.json": "jsonc",
-		"*.json5": "json",
 		"*.py": "python",
 		"Dockerfile.*": "dockerfile"
 	},
-	"files.autoGuessEncoding": true, //         タブやウィンドウがフォーカスを失うと自動保存する
-	"files.autoSave": "afterDelay",
-	"files.encoding": "utf8",
-	"files.eol": "\n",
-	"files.insertFinalNewline": true, //        ファイルの保存時に末尾を改行
-	"files.trimFinalNewlines": true, //         ファイルの保存時に最終行以降をトリミング
-	"files.trimTrailingWhitespace": true, //    ファイルの保存時に行末の空白をトリミング
 	"files.watcherExclude": {
-		/*「ファイル モニタリングから除外するファイル パスの glob パターンを構成します。
-		 * この設定を変更すると、再起動が必要になります。始動時に Code が消費する CPU 時間が多い場合は、
-		 * 大規模なフォルダーを除外して初期ロードを減らせます。」*/
 		"**/.git/objects/**": true,
 		"**/.history/**": true,
 		"**/.mypy_cache/**": true,
 		"**/.pytest_cache/**": true,
-		"**/.tox/**": true,
-		"**/.venv/**": true,
-		"**/node_modules/**": true,
-		"**/vendor/**": true
+		"**/.venv/**": true
 	},
 	"search.exclude": {
 		"**/.tmp": true,
-		/* フルテキスト検索と Quick Open でファイルとフォルダーを除外するための glob パターン を構成します。
-		 * Files: Exclude 設定からすべての glob パターンを継承します。*/
-		"**/bower_components": true,
-		"**/bundle": true,
-		"**/composer": true,
-		"**/node_modules": true,
 		"**/tmp": true
 	},
 	/* ---------------------------------------------------------------------------
 	 * Language Settings */
 	"[dockerfile]": {
-		"editor.tabSize": 4
+		"editor.defaultFormatter": "ms-azuretools.vscode-containers"
 	},
 	"[json]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.codeActionsOnSave": {
-			"quickfix.biome": "explicit"
-		},
-		"editor.tabSize": 2
+		"editor.defaultFormatter": "dprint.dprint"
 	},
 	"[jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.codeActionsOnSave": {
-			"quickfix.biome": "explicit"
-		},
-		"editor.tabSize": 2
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "dprint.dprint"
 	},
 	"[markdown]": {
-		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
-		"files.trimTrailingWhitespace": false // Markdown のファイルは行末の空白をトリミングしない
+		"editor.defaultFormatter": "dprint.dprint"
 	},
 	"[python]": {
 		"editor.codeActionsOnSave": {
 			"source.fixAll.ruff": "explicit",
 			"source.organizeImports.ruff": "explicit"
 		},
-		"editor.defaultFormatter": "charliermarsh.ruff",
-		"editor.tabSize": 4
+		"editor.defaultFormatter": "charliermarsh.ruff"
 	},
 	"[toml]": {
-		"editor.defaultFormatter": "tamasfe.even-better-toml",
-		"editor.tabSize": 4
+		"editor.defaultFormatter": "dprint.dprint"
 	},
-	/* ---------------------------------------------------------------------------
-	 * VSCode > Diff */
-	"diffEditor.ignoreTrimWhitespace": false,
-	"diffEditor.renderSideBySide": true, // 差分を横に並べて表示ではなく行内に表示する
-	"scm.diffDecorationsGutterPattern": {
-		"added": true
+	"[yaml]": {
+		"editor.defaultFormatter": "dprint.dprint"
 	},
-	/* ---------------------------------------------------------------------------
-	 * VSCode > Git */
-	"git.autofetch": true, //          自動フェッチが有効かどうか
-	"git.autoStash": true,
-	"git.enableSmartCommit": false, // ステージされた変更がない場合はすべての変更をコミットします。
-	"git.postCommitCommand": "push",
-	"git.commandsToLog": ["commit", "push"],
-	/* ---------------------------------------------------------------------------
-	 * VSCode > Extensions */
-	"extensions.ignoreRecommendations": false,
-	/* ---------------------------------------------------------------------------
-	 * VSCode > Other */
-	"editor.hover.delay": 1000,
-	"explorer.incrementalNaming": "smart",
-	// VSCode >  Problems */
-	"problems.showCurrentInStatus": true, // 有効にすると、現在発生している問題がステータス バーに表示されます。
-	/* ===========================================================================
+	/* =========================================================================
 	 * Extension
-	=========================================================================== */
-	/*****************************************************************************
+	========================================================================= */
+	/***************************************************************************
 	 * Extension: autoDocstring - Python Docstring Generator */
 	"autoDocstring.docstringFormat": "google",
-	/*****************************************************************************
+	/***************************************************************************
 	 * Extension: Code Coverage */
 	"markiscodecoverage.enableDecorations": false,
 	// ${workspaceFolder} に対応非対応
-	"markiscodecoverage.searchCriteria": "coverage.lcov",
-	/*****************************************************************************
-	 * Extension: Continue */
-	"continue.telemetryEnabled": false,
-	/*****************************************************************************
-	 * Extension: Markdown All in One */
-	"markdown.extension.list.indentationSize": "inherit",
-	/*****************************************************************************
+	"markiscodecoverage.searchCriteria": "/app/target/coverage.lcov",
+	/***************************************************************************
 	 * Extension: Mypy Type Checker */
 	"mypy-type-checker.args": [
 		"--config-file",
@@ -151,17 +74,7 @@
 	},
 	"mypy-type-checker.path": ["${workspaceFolder}/.venv/bin/mypy"],
 	"mypy-type-checker.interpreter": ["${workspaceFolder}/.venv/bin/python3"],
-	/*****************************************************************************
-	 * Extension: Partial Diff */
-	"partialDiff.commandsOnContextMenu": {
-		"diffSelectionWithClipboard": true,
-		"diffVisibleEditors": true,
-		"markSection1": true,
-		"markSection2AndTakeDiff": true,
-		"togglePreComparisonTextNormalizationRules": true
-	},
-	"partialDiff.enableTelemetry": false,
-	/*****************************************************************************
+	/***************************************************************************
 	 * EExtension: Pylance */
 	"python.analysis.autoImportCompletions": true,
 	"python.analysis.completeFunctionParens": true,
@@ -174,13 +87,13 @@
 	"notebook.outline.showCodeCells": true,
 	"notebook.output.textLineLimit": 3000,
 
-	/*****************************************************************************
+	/***************************************************************************
 	 * Extension: Python */
 	"python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3",
 	"python.envFile": "${workspaceFolder}/.env",
 	"python.experiments.enabled": false,
 	"python.terminal.activateEnvInCurrentTerminal": true,
-	/* ---------------------------------------------------------------------------
+	/***************************************************************************
 	 * Extension: Python - testing */
 	"python.testing.autoTestDiscoverOnSaveEnabled": true,
 	"python.testing.cwd": "${workspaceFolder}",
@@ -190,7 +103,7 @@
 	"python.testing.unittestEnabled": false,
 	"testing.alwaysRevealTestOnStateChange": true,
 	"testing.automaticallyOpenPeekViewDuringAutoRun": true,
-	/*****************************************************************************
+	/***************************************************************************
 	 * Extension: Python Test Explorer for Visual Studio Code */
 	"pythonTestExplorer.testFramework": "pytest",
 	"pythonTestExplorer.testplanArgs": ["-vv"],
@@ -202,10 +115,10 @@
 	"testExplorer.showOnRun": true,
 	"testExplorer.sort": null,
 	"testExplorer.useNativeTesting": false,
-	/*****************************************************************************
+	/***************************************************************************
 	 * Extension: Ruff */
 	"ruff.configuration": "~/.config/custom_ruff_config.toml",
 	"ruff.importStrategy": "fromEnvironment"
-	/*****************************************************************************
+	/***************************************************************************
 	 * Unknown: */
 }

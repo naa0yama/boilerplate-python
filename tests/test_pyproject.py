@@ -6,7 +6,7 @@
 
 from pathlib import Path
 
-from tomli import load
+from tomllib import load
 
 
 def test_pyproj() -> None:
