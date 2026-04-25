@@ -1,0 +1,151 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: tagpr
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [labeled, unlabeled]
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false # zizmor: ignore[concurrency-limits] tag creation must not be cancelled mid-flight
+
+jobs:
+  tagpr:
+    name: tagpr
+    env:
+      MISE_ENV: tagpr
+    if: >-
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.event.pull_request.head.ref, 'tagpr-from-')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      tag: ${{ steps.tagpr.outputs.tag }}
+    permissions:
+      contents: write # Required to create tags and update files
+      pull-requests: write # Required to create and update pull requests
+      issues: read # Required to read release-related issues (tagpr official recommendation)
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Cache dprint plugins
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ~/.cache/dprint
+          key: dprint-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('dprint.jsonc') }}
+          restore-keys: |
+            dprint-v1-${{ runner.os }}-${{ runner.arch }}-
+
+      - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          install_args: dprint
+          # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
+          version: 2026.4.18
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Wait for GitHub commit-to-PR index to settle
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          # tagpr has a limited retry window for ListPullRequestsWithCommit.
+          # Poll up to 120s so that latestPullRequest() succeeds on its first attempt.
+          for i in $(seq 1 24); do
+            count=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" \
+              --jq 'length' 2>/dev/null || echo 0)
+            if [ "${count}" -gt 0 ]; then
+              echo "commit-to-PR index ready after ${i} attempt(s)"
+              exit 0
+            fi
+            echo "attempt ${i}/24: index not ready, sleeping 5s"
+            sleep 5
+          done
+          # HEAD may legitimately have no PR (direct push, workflow re-run).
+          echo "::warning::commit-to-PR index did not populate within 120s; proceeding"
+
+      - id: tagpr
+        uses: Songmu/tagpr@9bbb945b2fb025126186661e27d55485e3fc6df6 # v1.18.3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Parse tagpr pull request output
+        id: tagpr-pr
+        if: steps.tagpr.outputs.pull_request != ''
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          PR_JSON: ${{ steps.tagpr.outputs.pull_request }}
+        with:
+          script: |
+            const pr = JSON.parse(process.env.PR_JSON);
+            core.setOutput('branch', pr.head.ref);
+            core.setOutput('number', String(pr.number));
+
+      - name: Format CHANGELOG.md
+        id: fmt-changelog
+        if: steps.tagpr.outputs.tag == '' && steps.tagpr-pr.outputs.branch != ''
+        run: |
+          git checkout -- .
+          git clean -fd
+          git fetch origin "$BRANCH"
+          git checkout "$BRANCH"
+          dprint fmt CHANGELOG.md
+          if git diff --quiet CHANGELOG.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          BRANCH: ${{ steps.tagpr-pr.outputs.branch }}
+
+      - name: Commit formatted CHANGELOG.md
+        if: steps.fmt-changelog.outputs.changed == 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          BRANCH: ${{ steps.tagpr-pr.outputs.branch }}
+        with:
+          script: |
+            const fs = require('fs');
+            const branch = process.env.BRANCH;
+            const content = fs.readFileSync('CHANGELOG.md');
+            const encoded = content.toString('base64');
+
+            const { data: ref } = await github.rest.git.getRef({
+              ...context.repo,
+              ref: `heads/${branch}`,
+            });
+
+            await github.graphql(`
+              mutation($input: CreateCommitOnBranchInput!) {
+                createCommitOnBranch(input: $input) {
+                  commit { oid }
+                }
+              }
+            `, {
+              input: {
+                branch: {
+                  repositoryNameWithOwner: `${context.repo.owner}/${context.repo.repo}`,
+                  branchName: branch,
+                },
+                expectedHeadOid: ref.object.sha,
+                message: { headline: '[tagpr] format CHANGELOG.md with dprint' },
+                fileChanges: {
+                  additions: [{
+                    path: 'CHANGELOG.md',
+                    contents: encoded,
+                  }],
+                },
+              },
+            });

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+name: "Prebuild DevContainer"
+description: "Build and push devcontainer image to GitHub Container Registry"
+inputs:
+  github_token:
+    description: "GitHub token for registry authentication"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+
+    - name: Convert repository owner/repo to lowercase
+      id: repo_name
+      shell: bash
+      run: echo "lowercase=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ inputs.github_token }}
+
+    - name: Pre-build dev container image
+      uses: devcontainers/ci@b63b30de439b47a52267f241112c5b453b673db5 # v0.3.1900000449
+      with:
+        imageName: ghcr.io/${{ steps.repo_name.outputs.lowercase }}/devcontainer
+        cacheFrom: ghcr.io/${{ steps.repo_name.outputs.lowercase }}/devcontainer
+        refFilterForPush: refs/heads/main
+        noCache: false

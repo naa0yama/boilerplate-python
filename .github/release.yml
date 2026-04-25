@@ -3,15 +3,16 @@ changelog:
   exclude:
     labels:
       - ignore-for-release
+      - tagpr
 
   categories:
     - title: Features 🎉
-      labels: ['enhancement']
+      labels: ["enhancement"]
     - title: Bug Fixes 🐌
-      labels: ['bug']
+      labels: ["bug"]
     - title: Documentation 🗒️
-      labels: ['documentation']
+      labels: ["documentation"]
     - title: Dependency Updates 👒
-      labels: ['renovate']
+      labels: ["renovate"]
     - title: Other Changes
-      labels: ['*']
+      labels: ["*"]

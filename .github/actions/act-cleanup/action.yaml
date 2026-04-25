@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+name: "Cleanup"
+description: "Delete branch caches and untagged container versions after PR merge"
+runs:
+  using: "composite"
+  steps:
+    - name: Cleanup caches and check container package
+      id: cleanup
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      with:
+        script: |
+          const branch = context.payload.pull_request?.head?.ref ?? context.ref.replace('refs/heads/', '');
+          const ref = `refs/heads/${branch}`;
+
+          // Delete caches for the branch
+          const caches = await github.paginate(
+            github.rest.actions.getActionsCacheList,
+            { ...context.repo, ref },
+          );
+          for (const cache of caches) {
+            console.log(`Deleting cache: ${cache.key}`);
+            await github.rest.actions.deleteActionsCacheById({
+              ...context.repo,
+              cache_id: cache.id,
+            });
+          }
+          console.log(`Deleted ${caches.length} caches`);
+
+          // Check container package exists
+          const packageName = context.repo.repo.toLowerCase() + '/devcontainer';
+          try {
+            await github.rest.packages.getPackageForUser({
+              package_type: 'container',
+              package_name: packageName,
+              username: context.repo.owner,
+            });
+            core.setOutput('package_exists', 'true');
+            core.setOutput('package_name', packageName);
+          } catch (e) {
+            if (e.status === 404) {
+              core.setOutput('package_exists', 'false');
+            } else {
+              throw e;
+            }
+          }
+
+    - name: Delete untagged containers
+      if: steps.cleanup.outputs.package_exists == 'true'
+      uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+      with:
+        package-name: ${{ steps.cleanup.outputs.package_name }}
+        package-type: "container"
+        min-versions-to-keep: 0
+        delete-only-untagged-versions: true

@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+name: "Lint GitHub Actions"
+description: "Run actionlint and zizmor on workflow files, then report results"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+
+    - name: Check workflow files with actionlint
+      id: actionlint
+      shell: bash
+      env:
+        ACTIONLINT_VERSION: 03d0035246f3e81f36aed592ffb4bebf33a03106 # v1.7.7
+      run: |
+        bash <(curl -sfSL --retry 3 --retry-delay 2 --retry-connrefused "https://raw.githubusercontent.com/rhysd/actionlint/${ACTIONLINT_VERSION}/scripts/download-actionlint.bash")
+        ./actionlint -verbose -format "$(cat .github/workflows/actionlint-format.txt)" | tee results-actionlint.sarif
+
+    - name: Upload actionlint SARIF
+      if: success() || failure()
+      uses: github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
+      with:
+        sarif_file: results-actionlint.sarif
+        category: actionlint
+
+    - name: Run zizmor
+      id: zizmor
+      if: success() || failure()
+      uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
+      with:
+        persona: pedantic
+
+    - name: Summary
+      if: always()
+      shell: bash
+      env:
+        ACTIONLINT_OUTCOME: ${{ steps.actionlint.outcome }}
+        ZIZMOR_OUTCOME: ${{ steps.zizmor.outcome }}
+      run: |
+        cat <<EOF >> "${GITHUB_STEP_SUMMARY}"
+        ## Linting Results
+        | Tool | Status |
+        |------|--------|
+        | actionlint | "${ACTIONLINT_OUTCOME}" |
+        | zizmor | "${ZIZMOR_OUTCOME}" |
+
+        EOF
