@@ -3,19 +3,14 @@ name = "pythonboilerplate"
 description = "Python を開発する時用ボイラープレート"
 license = { text = "AGPL-3.0" }
 authors = [
-    { name = "Naoki Aoyama" },
+	{ name = "Naoki Aoyama" },
 ]
-dynamic = [ "version" ]
+dynamic = ["version"]
 readme = "README.md"
-requires-python = "~=3.12"
+requires-python = "~=3.12.0"
 
 [project.scripts]
 sample-cli = "pythonboilerplate.cli:main"
-
-[tool.poetry]
-requires-poetry = ">=2.0"
-version = "0.0.0"
-package-mode = true
 
 [tool.setuptools_scm]
 version_file = "src/pythonboilerplate/_version.py"
@@ -28,68 +23,59 @@ version_file_template = """
 __version__: str = "{version!s}"
 """
 
-[tool.poetry.dependencies]
-
-[tool.poetry.group.dev.dependencies]
-pip = "^25.0.0"
-pre-commit = "~4.3.0"
-taskipy = "~1.14.0"
-tox = "~4.28.0"
-tox-gh-actions = "~3.3.0"
-nuitka = "^2.6.8"
-setuptools-scm = "^8.2.0"
-
-[tool.poetry.group.docs.dependencies]
-furo = "~2025.7.0"
-sphinx = "~8.2.0"
-sphinx-autobuild = "~2024.10.0"
-sphinx-pyproject = "~0.3.0"
-
-[tool.poetry.group.linting.dependencies]
-mypy = "~1.17.0"
-ruff = "^0.12.0"
-
-[tool.poetry.group.tests.dependencies]
-pytest = "~8.4.0"
-pytest-azurepipelines = "~1.0.4"
-pytest-cov = "~6.2.0"
-pytest-mock = "~3.14.0"
-
-[tool.poetry.group.types.dependencies]
-types-requests = "~2.28.11.8"
-
-[tool.poetry.requires-plugins]
-poetry-plugin-shell = ">1.0"
+[dependency-groups]
+dev = [
+	"nuitka>=2.6.8",
+	"setuptools-scm>=8.2.0",
+]
+docs = [
+	"furo>=2025.7,<2026",
+	"sphinx>=8.2,<8.3",
+	"sphinx-autobuild>=2024.10,<2025",
+	"sphinx-pyproject>=0.3,<0.4",
+]
+linting = [
+	"mypy>=1.17,<1.18",
+	"ruff>=0.12.0",
+]
+tests = [
+	"pytest>=8.4,<8.5",
+	"pytest-cov>=6.2,<6.3",
+	"pytest-mock>=3.14,<3.15",
+]
+types = [
+	"types-requests>=2.28.11.8",
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
-    ".ipynb_checkpoints",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pyenv",
-    ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    ".vscode",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "site-packages",
-    "venv",
+	".bzr",
+	".direnv",
+	".eggs",
+	".git",
+	".git-rewrite",
+	".hg",
+	".ipynb_checkpoints",
+	".mypy_cache",
+	".nox",
+	".pants.d",
+	".pyenv",
+	".pytest_cache",
+	".pytype",
+	".ruff_cache",
+	".svn",
+	".tox",
+	".venv",
+	".vscode",
+	"__pypackages__",
+	"_build",
+	"buck-out",
+	"build",
+	"dist",
+	"node_modules",
+	"site-packages",
+	"venv",
 ]
 
 fix = true
@@ -104,15 +90,15 @@ target-version = "py310"
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = [ "ALL" ]
+select = ["ALL"]
 ignore = [
-    "E203", #       E203: ":"の前の空白を入れないルール
-    "E501", #       E501: 演算子の前に改行しないようにするルール
-    "ANN101", #     ANN101: メソッド内の self の型アノテーションがありません
+	"E203", #       E203: ":"の前の空白を入れないルール
+	"E501", #       E501: 演算子の前に改行しないようにするルール
+	"ANN101", #     ANN101: メソッド内の self の型アノテーションがありません
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
-fixable = [ "ALL" ]
+fixable = ["ALL"]
 # unfixable = []
 
 # Allow unused variables when underscore-prefixed.
@@ -120,12 +106,12 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**/*.py" = [
-    "S101", #       asserts allowed in tests...
-    "FBT", #        don't care about booleans as positional arguments in tests
-    "INP001", #     no implicit namespace
-    "D", #          don"t care about documentation in tests
-    "S603", #       `subprocess` call: check for execution of untrusted input
-    "PLR2004", #    Magic value used in comparison, consider replacing with a constant variable
+	"S101", #       asserts allowed in tests...
+	"FBT", #        don't care about booleans as positional arguments in tests
+	"INP001", #     no implicit namespace
+	"D", #          don"t care about documentation in tests
+	"S603", #       `subprocess` call: check for execution of untrusted input
+	"PLR2004", #    Magic value used in comparison, consider replacing with a constant variable
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -168,13 +154,13 @@ default-section = "third-party"
 # Ref: https://mypy.readthedocs.io/en/stable/config_file.html?highlight=pyproject
 
 ## Import discovery
-mypy_path = [ 'src', 'tests' ]
+mypy_path = ['src', 'tests']
 ignore_missing_imports = true
 warn_unused_configs = true
 
 ## Disallow dynamic typing
 disallow_any_unimported = true
-#disallow_any_generics      = true
+# disallow_any_generics      = true
 disallow_untyped_defs = true
 
 ## Untyped definitions and calls
@@ -192,67 +178,71 @@ warn_unreachable = true
 ## Miscellaneous
 scripts_are_modules = true
 
+[tool.coverage.run]
+data_file = "target/.coverage"
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.coverage.html]
+directory = "target/htmlcov"
+
+[tool.coverage.lcov]
+output = "target/coverage.lcov"
+
+[tool.coverage.xml]
+output = "target/coverage.xml"
+
 [tool.pytest]
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = [
-    "--cov-branch",
-    "--cov-report=html",
-    "--cov-report=lcov",
-    "--cov-report=term-missing",
-    "--cov-report=term-missing",
-    "--cov-report=term",
-    "--cov-report=xml",
-    "--cov=src",
-    "--durations=0",
-    "--verbose",
-    "-r sfp",
+	"--cov-branch",
+	"--cov-report=html",
+	"--cov-report=lcov",
+	"--cov-report=term-missing",
+	"--cov-report=term",
+	"--cov-report=xml:target/coverage.xml",
+	"--cov=src",
+	"--durations=0",
+	"--junit-xml=target/test-output.xml",
+	"--verbose",
+	"-r sfp",
 ]
 
 [tool.sphinx-pyproject]
 autosummary_generate = true
 copyright = "2022, naa0yama"
 exclude_patterns = [
-    "_build",
-    ".DS_Store",
-    ".gitkeep",
-    "Thumbs.db",
+	"_build",
+	".DS_Store",
+	".gitkeep",
+	"Thumbs.db",
 ]
 extensions = [
-    'sphinx.ext.autosummary',
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.todo",
-    "sphinx.ext.viewcode",
+	'sphinx.ext.autosummary',
+	"sphinx.ext.autodoc",
+	"sphinx.ext.napoleon",
+	"sphinx.ext.todo",
+	"sphinx.ext.viewcode",
 ]
 html_last_updated_fmt = "%Y-%m-%dT%H:%M:%S%Z"
-html_static_path = [ "_static" ]
+html_static_path = ["_static"]
 html_theme = "furo"
 language = "en"
 package_root = "src/pythonboilerplate"
 project = "pythonboilerplate"
 templates_path = [
-    "_templates",
+	"_templates",
 ]
 todo_include_todos = true
 
-[tool.taskipy.tasks]
-test = "pytest"
-testview = "python3 -m http.server 8000 --directory htmlcov/"
-build_pre = "python -m setuptools_scm --force-write-version-files"
-build_nuitka = "python -m nuitka --onefile --follow-imports --output-dir=dist src/pythonboilerplate/cli.py"
-build = "bash -c 'rm -rf {build,dist}' && task build_pre && task build_nuitka"
-
-docs = "task doc_cleanup && task docs_apidoc && task docs_build"
-doc_cleanup = "rm -rfv docs/*.rst docs/*.bat docs/Makefile"
-docs_apidoc = "sphinx-apidoc -F -e -d 2 -o docs src"
-docs_build = "sphinx-build docs docs/_build"
-docslive = "task docs && sphinx-autobuild --watch src docs docs/_build"
+[tool.uv]
+python-preference = "system"
 
 [build-system]
 requires = [
-    "poetry-core>=2.0.0",
-    "setuptools>=64",
-    "setuptools-scm>=8",
+	"setuptools>=64",
+	"setuptools-scm>=8",
 ]
 build-backend = "setuptools.build_meta"
