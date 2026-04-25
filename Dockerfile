@@ -60,6 +60,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	gnupg \
 	jq \
 	nano \
+	openssh-client \
 	patchelf \
 	sudo \
 	wget
