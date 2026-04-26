@@ -21,11 +21,6 @@ coverage:
 diff:
   datastores:
     - artifact://${GITHUB_REPOSITORY}
-push:
-  if: is_default_branch
-  datastores:
-    - github://${GITHUB_REPOSITORY}@badges
-  message: "Update coverage badges [skip ci]"
 report:
   if: is_default_branch
   datastores:
