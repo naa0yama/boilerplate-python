@@ -107,19 +107,16 @@ jobs:
           fi
 
           # Build new tree and commit via API (API commits are signed by GitHub)
-          tree_json=$(printf \
-            '[{"path":"coverage.svg","mode":"100644","type":"blob","sha":"%s"},{"path":"time.svg","mode":"100644","type":"blob","sha":"%s"}]' \
-            "$coverage_blob" "$time_blob")
-          new_tree=$(gh api "repos/${GITHUB_REPOSITORY}/git/trees" \
-            --method POST --field base_tree="${tree_sha}" \
-            --field tree="${tree_json}" --jq '.sha')
+          # Use --input - to pass complete JSON body, avoiding --field parsing issues
+          new_tree=$(printf \
+            '{"base_tree":"%s","tree":[{"path":"coverage.svg","mode":"100644","type":"blob","sha":"%s"},{"path":"time.svg","mode":"100644","type":"blob","sha":"%s"}]}' \
+            "$tree_sha" "$coverage_blob" "$time_blob" \
+            | gh api "repos/${GITHUB_REPOSITORY}/git/trees" --method POST --input - --jq '.sha')
 
-          parents_json=$(printf '["%s"]' "$head_sha")
-          new_commit=$(gh api "repos/${GITHUB_REPOSITORY}/git/commits" \
-            --method POST \
-            --field message="Update coverage badges [skip ci]" \
-            --field tree="${new_tree}" \
-            --field parents="${parents_json}" --jq '.sha')
+          new_commit=$(printf \
+            '{"message":"Update coverage badges [skip ci]","tree":"%s","parents":["%s"]}' \
+            "$new_tree" "$head_sha" \
+            | gh api "repos/${GITHUB_REPOSITORY}/git/commits" --method POST --input - --jq '.sha')
 
           gh api "repos/${GITHUB_REPOSITORY}/git/refs/heads/badges" \
             --method PATCH --field sha="${new_commit}"
