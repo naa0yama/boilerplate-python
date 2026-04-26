@@ -7,7 +7,7 @@ authors = [
 ]
 dynamic = ["version"]
 readme = "README.md"
-requires-python = "~=3.12.0"
+requires-python = "~=3.14.4"
 
 [project.scripts]
 sample-cli = "pythonboilerplate.cli:main"
