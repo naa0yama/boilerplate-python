@@ -31,7 +31,7 @@ dev = [
 docs = [
 	"furo>=2025.7,<2026",
 	"sphinx>=8.2,<8.3",
-	"sphinx-autobuild>=2024.10,<2025",
+	"sphinx-autobuild>=2025.8,<2026",
 	"sphinx-pyproject>=0.3,<0.4",
 ]
 linting = [
