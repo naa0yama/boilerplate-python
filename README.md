@@ -1,8 +1,43 @@
 # pythonboilerplate
 
-[![codecov](https://codecov.io/gh/naa0yama/pythonboilerplate/branch/main/graph/badge.svg?token=D8YU7EYIYZ)](https://codecov.io/gh/naa0yama/pythonboilerplate)
+![coverage](https://raw.githubusercontent.com/naa0yama/boilerplate-python/badges/coverage.svg)
+![test execution time](https://raw.githubusercontent.com/naa0yama/boilerplate-python/badges/time.svg)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![mise](https://img.shields.io/badge/mise-enabled-blue)](https://mise.jdx.dev)
+[![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org)
 
 Python で開発する時用ボイラープレート
+
+## Getting Started
+
+`mise` でツール一式 (Python, uv, dprint など) をプロビジョニングし、 `uv` で依存関係をインストールする。
+
+```bash
+# mise のインストール (未導入の場合)
+# https://mise.jdx.dev/getting-started.html
+curl https://mise.run | sh
+
+# ツール一式のインストール (Python 3.12, uv, dprint, actionlint, ...)
+mise install
+
+# Python 依存関係のインストール
+mise run install
+
+# テスト実行
+mise run test
+```
+
+### 主なコマンド
+
+| コマンド              | 説明                    |
+| --------------------- | ----------------------- |
+| `mise run install`    | 依存関係インストール    |
+| `mise run test`       | テスト実行              |
+| `mise run fmt`        | コードフォーマット      |
+| `mise run lint`       | 全 Linter 実行          |
+| `mise run pre-commit` | コミット前チェック      |
+| `mise run build`      | Nuitka でバイナリビルド |
+| `mise run docs`       | ドキュメントビルド      |
 
 ## チュートリアル
 

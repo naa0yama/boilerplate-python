@@ -103,9 +103,6 @@ spec:
     - name: "datasource:"
       description: "Source: unspecified"
       color: 1e7de8
-    - name: datasource:crate
-      description: "Source: crates.io"
-      color: 1e7de8
     - name: datasource:docker
       description: "Source: Docker Hub"
       color: 1e7de8
@@ -144,16 +141,10 @@ spec:
     - name: depType:syntax
       description: "Dependency type: Dockerfile syntax"
       color: 28a745
-    - name: depType:workspace.dependencies
-      description: "Dependency type: Cargo workspace"
-      color: 28a745
 
     # Renovate — manager
     - name: "manager:"
       description: "Manager: unspecified"
-      color: 8b5cf6
-    - name: manager:cargo
-      description: "Manager: Cargo"
       color: 8b5cf6
     - name: manager:dockerfile
       description: "Manager: Dockerfile"
@@ -198,9 +189,6 @@ spec:
     - name: "versioning:"
       description: "Versioning: unspecified"
       color: 14b8a6
-    - name: versioning:cargo
-      description: "Versioning: Cargo"
-      color: 14b8a6
     - name: versioning:docker
       description: "Versioning: Docker"
       color: 14b8a6
@@ -230,8 +218,6 @@ spec:
         - "k1low/octocov-action@*"
         - "naa0yama/gh-sync@*"
         - "songmu/tagpr@*"
-        - "swatinem/rust-cache@*"
-        - "taiki-e/install-action@*"
         - "zizmorcore/zizmor-action@*"
     sha_pinning_required: true
     workflow_permissions: read
@@ -267,10 +253,6 @@ spec:
         required_linear_history: false
         required_signatures: true
 files:
-  # .cargo
-  - path: .cargo/config.toml
-    strategy: replace
-
   # .claude
   - path: .claude/settings.json
     strategy: replace
@@ -279,10 +261,6 @@ files:
   - path: .devcontainer/devcontainer.json
     strategy: replace
   - path: .devcontainer/initializeCommand.sh
-    strategy: replace
-  - path: .devcontainer/o2-env.sh
-    strategy: replace
-  - path: .devcontainer/o2-import-dashboards.sh
     strategy: replace
   - path: .devcontainer/postStartCommand.sh
     strategy: replace
@@ -321,14 +299,6 @@ files:
 
   # .github/actions/act-setup-python
   - path: .github/actions/act-setup-python/action.yaml
-    strategy: replace
-
-  # .github/actions/act-setup-rust
-  - path: .github/actions/act-setup-rust/action.yaml
-    strategy: replace
-
-  # .github/actions/upload-release-assets
-  - path: .github/actions/upload-release-assets/action.yaml
     strategy: replace
 
   # .github
@@ -378,8 +348,6 @@ files:
     strategy: replace
   - path: .github/workflows/cleanup.yaml
     strategy: replace
-  - path: .github/workflows/miri.yaml
-    strategy: replace
   - path: .github/workflows/pr-labeler.yaml
     strategy: replace
   - path: .github/workflows/python-ci.yaml
@@ -396,10 +364,6 @@ files:
     strategy: delete
   - path: .github/workflows/prebuild-container.yaml
     strategy: delete
-  - path: .github/workflows/release.yaml
-    strategy: replace
-  - path: .github/workflows/rust-ci.yaml
-    strategy: replace
   - path: .github/workflows/tagpr.yaml
     strategy: replace
 
@@ -414,30 +378,7 @@ files:
     strategy: replace
 
   # .vscode
-  - path: .vscode/launch.json
-    strategy: replace
-    preserve_markers: true
   - path: .vscode/settings.json
-    strategy: replace
-
-  # ast-rules
-  - path: ast-rules/_rules.md
-    strategy: replace
-  - path: ast-rules/error-context-required.yml
-    strategy: replace
-  - path: ast-rules/module-size-limit.yml
-    strategy: replace
-  - path: ast-rules/no-blocking-in-async.yml
-    strategy: replace
-  - path: ast-rules/no-get-prefix.yml
-    strategy: replace
-  - path: ast-rules/no-hardcoded-credentials.yml
-    strategy: replace
-  - path: ast-rules/secure-random-required.yml
-    strategy: replace
-
-  # docs/o2-dashboards
-  - path: docs/o2-dashboards/.gitkeep
     strategy: replace
 
   # docs/specs/components
@@ -455,8 +396,6 @@ files:
   # others
   - path: CLAUDE.md
     strategy: create_only
-  - path: .clippy.toml
-    strategy: replace
   - path: .dockerignore
     strategy: replace
   - path: .editorconfig
@@ -464,8 +403,6 @@ files:
   - path: .gitignore
     strategy: replace
     preserve_markers: true
-  - path: .gitleaksignore
-    strategy: replace
   - path: .octocov.yml
     strategy: replace
   - path: .tagpr
@@ -473,27 +410,20 @@ files:
   - path: .worktreeinclude
     strategy: replace
     preserve_markers: true
-  - path: Cargo.toml
-    strategy: replace
-    preserve_markers: true
   - path: Dockerfile
     strategy: replace
     preserve_markers: true
   - path: LICENSE
-    strategy: replace
-  - path: deny.toml
     strategy: replace
   - path: dprint.jsonc
     strategy: replace
   - path: mise.toml
     strategy: replace
     preserve_markers: true
-  - path: renovate.json
-    strategy: replace
-  - path: rust-toolchain.toml
+  - path: pyproject.toml
     strategy: replace
     preserve_markers: true
-  - path: sgconfig.yml
+  - path: renovate.json
     strategy: replace
 
   # deleted
@@ -511,7 +441,15 @@ files:
     strategy: delete
   - path: .tool-versions
     strategy: delete
+  - path: .devcontainer/o2-env.sh
+    strategy: delete
+  - path: .devcontainer/o2-import-dashboards.sh
+    strategy: delete
+  - path: .gitleaksignore
+    strategy: delete
   - path: .vscode/extensions.json
+    strategy: delete
+  - path: .vscode/launch.json
     strategy: delete
   - path: .yamllint.yml
     strategy: delete
