@@ -4,8 +4,6 @@
 ### Ansible ###
 *.retry
 
-### asdf ###
-/.tool-versions
 
 ### Fish ###
 fishd.*
@@ -223,15 +221,11 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
+# Unit test / coverage reports (outputs go to target/)
+target/
 .tox/
 .nox/
-.coverage
-.coverage.*
 .cache
-nosetests.xml
-coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
@@ -416,6 +410,7 @@ functions/
 
 # local debug
 src/pythonboilerplate/_version.py
+tmp/
 tmp.**
 
 # sphinx
@@ -425,8 +420,22 @@ docs/
 # nuitka
 nuitka-crash-report.xml
 
-# pytest-azurepipelines
-**/coverage.lcov
-**/test-output.xml
+# pytest-azurepipelines (writes to workspace root in CI)
+test-output.xml
 
-# Unknown
+# mise
+.mise.local.toml
+
+# Claude Code
+.claude/*.local.json
+.claude/scheduled_tasks.lock
+.claude/skills/lib-*/SKILL.md
+.claude/skills/tool-*/SKILL.md
+.mcp.json
+
+# Workflow tools
+lefthook-local.yml
+
+# Coverage badges (pushed to badges branch by octocov)
+coverage.svg
+time.svg

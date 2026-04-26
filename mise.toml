@@ -1,0 +1,23 @@
+[env]
+# gh-sync:keep-start
+# Project-specific dependencies are listed here.
+
+# gh-sync:keep-end
+
+[tools]
+"aqua:cli/cli" = "2.90.0"
+"github:naa0yama/gh-sync" = "0.3.6"
+actionlint = "1.7.12"
+codeql = { version = "latest", bin_path = "codeql", platforms = { linux-x64 = { asset_pattern = "codeql-linux64.zip" }, macos-arm64 = { asset_pattern = "codeql-osx64.zip" }, macos-x64 = { asset_pattern = "codeql-osx64.zip" }, windows-x64 = { asset_pattern = "codeql-win64.zip" } } }
+dprint = "0.54.0"
+ghalint = "1.5.3"
+python = "3.12.13"
+usage = "3.2.0"
+uv = "latest"
+zizmor = "1.16.0"
+
+[task_config]
+includes = [
+	".mise/tasks.toml",
+	".mise/overrides.toml",
+]

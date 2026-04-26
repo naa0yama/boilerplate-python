@@ -1,0 +1,11 @@
+# Python build
+.venv/
+target/
+
+
+# Git history
+.git/
+.history/
+
+# Temporary files
+tmp/

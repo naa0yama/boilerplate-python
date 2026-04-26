@@ -1,8 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>naa0yama/renovate-config"],
-	"assignees": ["@naa0yama"],
-	"pre-commit": {
-		"enabled": true
-	}
+	"extends": [
+		"local>naa0yama/renovate-config"
+	]
 }

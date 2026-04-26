@@ -1,0 +1,39 @@
+---
+# Ref: https://github.com/actions/labeler/tree/main#pull-request-labeler
+
+# Python source code
+core:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/*.py"
+          - "pyproject.toml"
+          - "uv.lock"
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "tests/**"
+
+# GitHub Actions workflows and infra
+github-actions:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/actions/**"
+          - ".github/actionlint.yaml"
+
+# Documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "README.md"
+
+# Dependency management
+renovate-config:
+  - changed-files:
+      - any-glob-to-any-file: "renovate.json"
+
+# Branch pattern
+develop:
+  - head-branch: ["^dev/"]

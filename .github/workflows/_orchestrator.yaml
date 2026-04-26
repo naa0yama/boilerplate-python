@@ -1,0 +1,217 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  schedule:
+    - cron: "0 18 * * *" # daily at 03:00 JST
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    name: detect-changes
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: read # Required to list changed files in pull request
+    outputs:
+      python: ${{ steps.changes.outputs.python }}
+      audit: ${{ steps.changes.outputs.audit }}
+      container: ${{ steps.changes.outputs.container }}
+      docs: ${{ steps.changes.outputs.docs }}
+    steps:
+      - name: Detect changed paths
+        id: changes
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            // github.paginate() automatically retrieves all pages.
+            // (Tracks the Link header and continues until there are no more pages)
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            const filenames = files.map(f => f.filename);
+
+            // --- Pattern definition (editing is only possible here) ---
+            const patterns = {
+              python: [
+                /\.py$/,
+                /(^|\/)pyproject\.toml$/,
+                /(^|\/)uv\.lock$/,
+                /^\.github\/actions\/act-setup-python\//,
+                /^\.github\/workflows\/python-ci\.yaml$/,
+              ],
+              audit: [
+                /(^|\/)pyproject\.toml$/,
+                /(^|\/)uv\.lock$/,
+              ],
+              container: [
+                /^\.devcontainer\//,
+                /^\.github\/actions\/act-prebuild-container\//,
+                /^Dockerfile$/,
+              ],
+              docs: [
+                /\.md$/,
+                /\.json[c]?$/,
+                /\.toml$/,
+                /\.ya?ml$/,
+                /^docs\//,
+                /^LICENSE$/,
+                /^\.editorconfig$/,
+              ],
+            };
+
+            // --- judgement ---
+            for (const [category, regexes] of Object.entries(patterns)) {
+              const matched = filenames.some(f => regexes.some(r => r.test(f)));
+              core.setOutput(category, String(matched));
+            }
+
+  # NOTE: no actions/checkout required - everything can be handled via API.
+
+  python-ci:
+    needs: detect-changes
+    # !cancelled() breaks the auto-skip chain on push events, where
+    # detect-changes is intentionally skipped (it only runs on PRs).
+    if: >-
+      !cancelled()
+      && (github.event_name == 'push'
+          || (github.event_name == 'pull_request'
+              && needs.detect-changes.outputs.python == 'true'))
+    uses: ./.github/workflows/python-ci.yaml
+    permissions:
+      actions: read # octocov artifact
+      contents: write # octocov badge push
+      pull-requests: write # octocov comment
+
+  audit:
+    name: audit
+    needs: detect-changes
+    if: >-
+      github.event_name == 'schedule'
+      || (github.event_name == 'pull_request'
+          && needs.detect-changes.outputs.audit == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read # Required to checkout the repository for dependency audit
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/act-audit
+
+  container:
+    name: container
+    needs: detect-changes
+    if: >-
+      github.event_name == 'pull_request'
+      && needs.detect-changes.outputs.container == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read # Required to checkout the repository
+      packages: write # Required to push container images to registry
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/act-prebuild-container
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  docs-ci:
+    name: docs-ci
+    needs: detect-changes
+    if: >-
+      github.event_name == 'pull_request'
+      && needs.detect-changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read # Required to checkout the repository
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/act-docs-ci
+
+  codeql:
+    name: codeql-analyze
+    if: >-
+      github.event_name == 'push'
+      || github.event_name == 'schedule'
+      || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read # Required to checkout the repository for CodeQL analysis
+      security-events: write # Required to upload CodeQL analysis results
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/act-codeql
+
+  actionlint:
+    name: actionlint
+    if: >-
+      github.event_name == 'schedule'
+      || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read # for codeql-action/upload-sarif telemetry
+      contents: read # Required to checkout the repository
+      security-events: write # Required to upload SARIF reports
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/act-actionlint
+
+  ci-gate:
+    name: CI Gate
+    # !contains(...,'cancelled') suppresses the gate when concurrency
+    # cancel-in-progress cancels upstream jobs; skipped != cancelled.
+    if: >-
+      !cancelled()
+      && !contains(needs.*.result, 'cancelled')
+    needs: [python-ci, audit, container, docs-ci, codeql, actionlint]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check CI results
+        env:
+          PYTHON_CI_RESULT: ${{ needs.python-ci.result }}
+          AUDIT_RESULT: ${{ needs.audit.result }}
+          CONTAINER_RESULT: ${{ needs.container.result }}
+          DOCS_CI_RESULT: ${{ needs.docs-ci.result }}
+          CODEQL_RESULT: ${{ needs.codeql.result }}
+          ACTIONLINT_RESULT: ${{ needs.actionlint.result }}
+        run: |
+          results=(
+            "$PYTHON_CI_RESULT"
+            "$AUDIT_RESULT"
+            "$CONTAINER_RESULT"
+            "$DOCS_CI_RESULT"
+            "$CODEQL_RESULT"
+            "$ACTIONLINT_RESULT"
+          )
+          for result in "${results[@]}"; do
+            if [[ "$result" != "success" && "$result" != "skipped" ]]; then
+              echo "::error::CI failed: $result"
+              exit 1
+            fi
+          done
+          echo "All CI checks passed or were correctly skipped."

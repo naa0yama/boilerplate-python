@@ -1,0 +1,10 @@
+# config file for the tagpr in git config format
+# Ref: https://github.com/Songmu/tagpr
+[tagpr]
+	releaseBranch = main
+	vPrefix = true
+	versionFile = "-"
+	changelog = true
+	template = ".github/tagpr-template.md"
+	postVersionCommand = "uv lock && git add uv.lock"
+	release = draft

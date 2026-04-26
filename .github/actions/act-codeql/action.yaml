@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+name: "CodeQL Analysis"
+description: "Initialize and run CodeQL analysis for Python"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
+      with:
+        languages: python
+        build-mode: none
+        config-file: .github/codeql-config.yml
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
+      with:
+        category: codeql

@@ -1,0 +1,11 @@
+# .claude
+.claude/skills/lib-*/SKILL.md
+.claude/skills/tool-*/SKILL.md
+
+# Claude Code
+.mcp.json
+
+# gh-sync:keep-start
+# Project-specific dependencies are listed here.
+
+# gh-sync:keep-end

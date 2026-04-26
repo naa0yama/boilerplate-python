@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Python CI
+on:
+  workflow_call: {}
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: python-ci-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  setup:
+    name: Load CI config
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read # Required to checkout the repository
+    outputs:
+      timeout_minutes: ${{ steps.load.outputs.timeout_minutes }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Load project config
+        id: load
+        run: |
+          timeout_minutes=$(jq -r '.timeout_minutes // 15' .github/project-config.json)
+          echo "timeout_minutes=${timeout_minutes}" >> "$GITHUB_OUTPUT"
+
+  lint:
+    name: lint
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(needs.setup.outputs.timeout_minutes) }}
+    permissions:
+      contents: read # Required to checkout the repository
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/act-setup-python
+
+      - name: Run lint
+        run: mise run lint
+
+  test:
+    name: test
+    needs: [setup, lint]
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(needs.setup.outputs.timeout_minutes) }}
+    permissions:
+      actions: read # For octocov to retrieve previous reports from artifacts
+      contents: write # For octocov to push badges to repository
+      pull-requests: write # For octocov to comment on pull requests
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: ./.github/actions/act-setup-python
+
+      - name: Run tests
+        run: mise run test
+
+      - name: Upload coverage
+        uses: k1LoW/octocov-action@73d561f65d59e66899ed5c87e4621a913b5d5c20 # v1.5.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

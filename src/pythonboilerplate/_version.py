@@ -3,4 +3,4 @@
 # don't change, don't track in version control
 """Version."""
 
-__version__: str = "24.10.31.dev51+g2442c03.d20250316"
+__version__: str = "25.3.18.dev78+g5a4bc9532.d20260425"

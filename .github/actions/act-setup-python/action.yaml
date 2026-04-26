@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+name: "Setup Python"
+description: "Install mise, cache virtualenv, and install project dependencies"
+runs:
+  using: "composite"
+  steps:
+    - name: Cache virtualenv
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: .venv
+        key: venv-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+        restore-keys: |
+          venv-v1-${{ runner.os }}-${{ runner.arch }}-
+
+    - name: Cache mise tools
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: ~/.local/share/mise
+        key: mise-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('mise.toml') }}
+        restore-keys: |
+          mise-v1-${{ runner.os }}-${{ runner.arch }}-
+
+    - name: Cache dprint plugins
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: ~/.cache/dprint
+        key: dprint-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('dprint.jsonc') }}
+        restore-keys: |
+          dprint-v1-${{ runner.os }}-${{ runner.arch }}-
+
+    - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+      with:
+        cache: false
+        # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
+        version: 2026.4.18
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Install dependencies
+      shell: bash
+      run: mise run install
