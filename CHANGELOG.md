@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.1](https://github.com/naa0yama/boilerplate-python/compare/v0.2.0...v0.2.1) - 2026-04-26
+### Bug Fixes 🐌
+- fix: use git worktree to initialize badges branch safely by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/763
+- fix: push coverage badges via GitHub Git Data API by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/765
+- fix: use --input - for git tree and commit API calls by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/766
+
 ## [v0.2.0](https://github.com/naa0yama/boilerplate-python/compare/v0.1.1...v0.2.0) - 2026-04-26
 
 ### Documentation 🗒️
