@@ -194,8 +194,9 @@ trap 'git worktree remove --force "$tmpdir" 2>/dev/null || true; rm -rf "$tmpdir
 
 git worktree add --orphan -b badges "$tmpdir"
 
-printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > "$tmpdir/coverage.svg"
-printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > "$tmpdir/time.svg"
+_svg='<svg xmlns="http://www.w3.org/2000/svg"/>'
+printf '%s' "$_svg" > "$tmpdir/coverage.svg"
+printf '%s' "$_svg" > "$tmpdir/time.svg"
 
 git -C "$tmpdir" add coverage.svg time.svg
 git -C "$tmpdir" commit -m "chore: initialize badges branch [skip ci]"
