@@ -55,7 +55,7 @@ jobs:
     timeout-minutes: ${{ fromJSON(needs.setup.outputs.timeout_minutes) }}
     permissions:
       actions: read # For octocov to retrieve previous reports from artifacts
-      contents: write # For octocov to push badges to repository
+      contents: write # For pushing coverage badges to the badges branch
       pull-requests: write # For octocov to comment on pull requests
 
     steps:
@@ -73,3 +73,54 @@ jobs:
         uses: k1LoW/octocov-action@73d561f65d59e66899ed5c87e4621a913b5d5c20 # v1.5.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push coverage badges
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          [[ -f coverage.svg && -f time.svg ]] || { echo "Badge files not found, skipping"; exit 0; }
+
+          # Create blobs via stdin (avoids shell argument size limits)
+          coverage_blob=$(base64 -w0 coverage.svg \
+            | jq -Rsc '{"encoding":"base64","content":.}' \
+            | gh api "repos/${GITHUB_REPOSITORY}/git/blobs" --method POST --input - --jq '.sha')
+          time_blob=$(base64 -w0 time.svg \
+            | jq -Rsc '{"encoding":"base64","content":.}' \
+            | gh api "repos/${GITHUB_REPOSITORY}/git/blobs" --method POST --input - --jq '.sha')
+
+          # Get current badges branch state
+          head_sha=$(gh api "repos/${GITHUB_REPOSITORY}/git/refs/heads/badges" --jq '.object.sha')
+          tree_sha=$(gh api "repos/${GITHUB_REPOSITORY}/git/commits/${head_sha}" --jq '.tree.sha')
+
+          # Skip if content unchanged (compare blob SHAs)
+          coverage_existing=$(gh api "repos/${GITHUB_REPOSITORY}/git/trees/${tree_sha}" \
+            --jq '.tree[] | select(.path == "coverage.svg") | .sha')
+          time_existing=$(gh api "repos/${GITHUB_REPOSITORY}/git/trees/${tree_sha}" \
+            --jq '.tree[] | select(.path == "time.svg") | .sha')
+          if [[ "$coverage_blob" == "$coverage_existing" && "$time_blob" == "$time_existing" ]]; then
+            echo "No badge changes"
+            exit 0
+          fi
+
+          # Build new tree and commit via API (API commits are signed by GitHub)
+          tree_json=$(printf \
+            '[{"path":"coverage.svg","mode":"100644","type":"blob","sha":"%s"},{"path":"time.svg","mode":"100644","type":"blob","sha":"%s"}]' \
+            "$coverage_blob" "$time_blob")
+          new_tree=$(gh api "repos/${GITHUB_REPOSITORY}/git/trees" \
+            --method POST --field base_tree="${tree_sha}" \
+            --field tree="${tree_json}" --jq '.sha')
+
+          parents_json=$(printf '["%s"]' "$head_sha")
+          new_commit=$(gh api "repos/${GITHUB_REPOSITORY}/git/commits" \
+            --method POST \
+            --field message="Update coverage badges [skip ci]" \
+            --field tree="${new_tree}" \
+            --field parents="${parents_json}" --jq '.sha')
+
+          gh api "repos/${GITHUB_REPOSITORY}/git/refs/heads/badges" \
+            --method PATCH --field sha="${new_commit}"
+          echo "Coverage badges updated"
