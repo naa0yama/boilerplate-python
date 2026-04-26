@@ -5,7 +5,6 @@
 """test pyproject.toml."""
 
 from pathlib import Path
-
 from tomllib import load
 
 
