@@ -1,1 +1,148 @@
 # Changelog
+
+## [v24.10.31](https://github.com/naa0yama/boilerplate-python/compare/v24.10.30...v24.10.31) - 2026-04-26
+### Documentation 🗒️
+- chore: migrate toolchain from poetry/taskipy to uv/mise and reorganize CI by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/752
+- build: consolidate Python version management to Dockerfile + uv by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/760
+### Dependency Updates 👒
+- chore(deps): update group:ruff to v0.7.2 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/606
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/607
+- chore(deps): update group:ruff to v0.7.3 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/608
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/609
+- chore(deps): update group:ruff to v0.7.4 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/611
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/612
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/614
+- chore(deps): update dependency taskipy to v1.14.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/615
+- chore(deps): update dependency pytest to v8.3.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/616
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/617
+- chore(deps): update group:ruff (minor) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/613
+- chore(deps): update codecov/codecov-action action to v5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/610
+- chore(deps): update actions/cache action to v4.2.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/620
+- chore(deps): update group:ruff to v0.8.2 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/619
+- chore(deps): update dependency poetry to v1.8.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/622
+- chore(deps): update pre-commit hook python-poetry/poetry to v1.8.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/623
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/624
+- chore(deps): update group:ruff to v0.8.3 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/625
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/626
+- chore(deps): update group:ruff to v0.8.4 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/627
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/629
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/630
+- chore(deps): update group:ruff to v0.8.6 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/631
+- chore(deps): update dependency mypy to ~1.15.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/628
+- chore(deps): update actions/setup-python action to v5.4.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/638
+- chore(deps): update dependency pre-commit to ~4.1.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/639
+- chore(deps): update actions/cache action to v4.2.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/640
+- chore(deps): update pre-commit hook biomejs/pre-commit to v0.6.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/621
+- chore(deps): update dependency tox to ~4.24.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/642
+- fix(deps): update python to v3.12.8 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/618
+- chore(deps): update dependency sphinx to ~8.2.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/641
+- chore(deps): update dependency pip to v25 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/644
+- chore(deps): update pre-commit hook biomejs/pre-commit to v1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/646
+- chore(deps): update group:ruff (minor) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/643
+- chore(deps): update group:ruff to v0.9.7 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/648
+- chore(deps): update dependency sphinx to v8.2.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/649
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/651
+- chore(deps): update actions/cache action to v4.2.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/652
+- chore(deps): update group:ruff to v0.9.8 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/653
+- chore(deps): update group:ruff to v0.9.9 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/654
+- chore(deps): update dependency pytest to v8.3.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/655
+- chore(deps): update dependency sphinx to v8.2.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/656
+- chore(deps): update dependency sphinx to v8.2.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/657
+- chore(deps): update group:ruff to v0.9.10 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/658
+- chore(deps): update dependency tox to v4.24.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/659
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/660
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/663
+- chore(deps): update dependency tox-gh-actions to ~3.3.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/650
+- chore(deps): update group:ruff (minor) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/662
+- chore(deps): update pre-commit hook adrienverge/yamllint to v1.36.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/661
+- chore(deps): update pre-commit hook adrienverge/yamllint to v1.36.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/666
+- chore(deps): update dependency setuptools-scm to v8.2.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/668
+- chore(deps): update actions/cache action to v4.2.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/669
+- chore(deps): update group:ruff to v0.11.1 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/670
+- chore(deps): update group:ruff to v0.11.2 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/671
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/673
+- chore(deps): update actions/setup-python action to v5.5.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/674
+- chore(deps): update pre-commit hook adrienverge/yamllint to v1.37.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/672
+- chore(deps): update dependency pre-commit to ~4.2.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/667
+- chore(deps): update dependency tox to ~4.25.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/675
+- chore(deps): update dependency nuitka to v2.6.9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/676
+- chore(deps): update dependency poetry to v2.1.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/677
+- chore(deps): update pre-commit hook python-poetry/poetry to v2.1.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/678
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/679
+- chore(deps): update group:ruff to v0.11.3 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/681
+- chore(deps): update group:ruff to v0.11.4 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/682
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/683
+- chore(deps): update group:ruff to v0.11.5 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/684
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/685
+- chore(deps): update group:ruff to v0.11.6 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/686
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/687
+- chore(deps): update dependency pytest-cov to ~6.1.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/680
+- chore(deps): update dependency pytest-cov to v6.1.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/688
+- chore(deps): update actions/setup-python action to v5.6.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/690
+- chore(deps): update group:ruff to v0.11.7 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/691
+- chore(deps): update group:ruff to v0.11.8 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/694
+- chore(deps): update dependency pip to v25.1.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/692
+- chore(deps): update dependency nuitka to v2.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/693
+- chore(deps): update pre-commit hook adrienverge/yamllint to v1.37.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/695
+- chore(deps): update pre-commit hook python-poetry/poetry to v2.1.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/697
+- chore(deps): update dependency poetry to v2.1.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/696
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/698
+- chore(deps): update dependency nuitka to v2.7.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/699
+- chore(deps): update dependency ruff to v0.11.9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/700
+- chore(deps): update pre-commit hook charliermarsh/ruff-pre-commit to v0.11.9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/701
+- chore(deps): update dependency nuitka to v2.7.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/702
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/703
+- chore(deps): update group:ruff to v0.11.10 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/705
+- chore(deps): update dependency nuitka to v2.7.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/706
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/707
+- chore(deps): update group:ruff to v0.11.11 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/708
+- chore(deps): update dependency pytest-mock to v3.14.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/709
+- chore(deps): update dependency nuitka to v2.7.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/710
+- chore(deps): update dependency nuitka to v2.7.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/711
+- chore(deps): update group:ruff to v0.11.12 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/712
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/714
+- chore(deps): update dependency nuitka to v2.7.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/716
+- chore(deps): update group:ruff to v0.11.13 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/717
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/718
+- chore(deps): update dependency nuitka to v2.7.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/719
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/721
+- chore(deps): update group:ruff (minor) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/722
+- chore(deps): update all action update by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/723
+- chore(deps): update dependency poetry to v2.1.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/725
+- chore(deps): update dependency nuitka to v2.7.12 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/724
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/733
+- chore(deps): update pre-commit hook python-poetry/poetry to v2.1.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/726
+- chore(deps): update pre-commit hook pre-commit/pre-commit-hooks to v6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/732
+- chore(deps): update pre-commit hook biomejs/pre-commit to v2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/731
+- chore(deps): update dependency tox to ~4.28.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/704
+- chore(deps): update dependency mypy to ~1.17.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/713
+- chore(deps): update dependency pytest to ~8.4.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/715
+- chore(deps): update dependency furo to v2025 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/730
+- chore(deps): update dependency pytest-cov to ~6.2.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/720
+- chore(deps): update dependency pre-commit to ~4.3.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/728
+- chore(deps): update dependency setuptools-scm to v8.3.1 - abandoned by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/689
+- chore(deps): update all action update to v5 (major) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/729
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/735
+- chore(deps): update dependency ruff to v0.12.10 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/736
+- chore(deps): update pre-commit hook charliermarsh/ruff-pre-commit to v0.12.10 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/737
+- chore(deps): update pre-commit hook biomejs/pre-commit to v2.2.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/738
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/739
+- chore(deps): update dependency nuitka to v2.7.13 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/741
+- chore(deps): update group:ruff to v0.12.11 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/742
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/744
+- chore(deps): update dependency pytest to v8.4.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/746
+- chore(deps): update group:ruff to v0.12.12 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/747
+- chore(deps): update dependency pytest-cov to >=6.3,<6.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/755
+- chore(deps): update dependency pytest-mock to >=3.15,<3.16 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/748
+- chore(deps): update dependency sphinx-autobuild to v2025 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/740
+- chore(deps): update dependency pytest-cov to v7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/758
+- chore(deps): update python to v3.14.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/757
+- chore(deps): update dependency sphinx to v9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/759
+### Other Changes
+- Update devcontainer.json by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/634
+- Revert "Update devcontainer.json" by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/636
+- fix: version select by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/637
+- fix: Migrating from ruff-lsp by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/645
+- dump: poetry 1.8.5 to 2.1.1 by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/647
+- dump: poetry 2.0 by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/664
+- Create .clinerules by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/665
