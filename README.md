@@ -4,7 +4,7 @@
 ![test execution time](https://raw.githubusercontent.com/naa0yama/boilerplate-python/badges/time.svg)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![mise](https://img.shields.io/badge/mise-enabled-blue)](https://mise.jdx.dev)
-[![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org)
+[![Python](https://img.shields.io/badge/python-3.14-blue)](https://www.python.org)
 
 Python で開発する時用ボイラープレート
 
@@ -17,7 +17,7 @@ Python で開発する時用ボイラープレート
 # https://mise.jdx.dev/getting-started.html
 curl https://mise.run | sh
 
-# ツール一式のインストール (Python 3.12, uv, dprint, actionlint, ...)
+# ツール一式のインストール (Python 3.14, uv, dprint, actionlint, ...)
 mise install
 
 # Python 依存関係のインストール
