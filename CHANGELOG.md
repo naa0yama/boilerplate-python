@@ -1,10 +1,14 @@
 # Changelog
 
 ## [v24.10.31](https://github.com/naa0yama/boilerplate-python/compare/v24.10.30...v24.10.31) - 2026-04-26
+
 ### Documentation 🗒️
+
 - chore: migrate toolchain from poetry/taskipy to uv/mise and reorganize CI by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/752
 - build: consolidate Python version management to Dockerfile + uv by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/760
+
 ### Dependency Updates 👒
+
 - chore(deps): update group:ruff to v0.7.2 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/606
 - chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/607
 - chore(deps): update group:ruff to v0.7.3 (patch) by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/608
@@ -138,7 +142,9 @@
 - chore(deps): update dependency pytest-cov to v7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/758
 - chore(deps): update python to v3.14.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/757
 - chore(deps): update dependency sphinx to v9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/759
+
 ### Other Changes
+
 - Update devcontainer.json by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/634
 - Revert "Update devcontainer.json" by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/636
 - fix: version select by @naa0yama in https://github.com/naa0yama/boilerplate-python/pull/637
