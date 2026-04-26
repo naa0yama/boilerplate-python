@@ -184,12 +184,22 @@ run = """
 #!/usr/bin/env bash
 set -euo pipefail
 
-git checkout --orphan badges
-git rm -rf .
-printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > coverage.svg
-printf '<svg xmlns="http://www.w3.org/2000/svg"/>' > time.svg
-git add coverage.svg time.svg
-git commit -m "chore: initialize badges branch [skip ci]"
-git checkout -
+if git show-ref --verify --quiet refs/heads/badges; then
+  echo "Error: 'badges' branch already exists. Delete it first: git branch -D badges" >&2
+  exit 1
+fi
+
+tmpdir=$(mktemp -d)
+trap 'git worktree remove --force "$tmpdir" 2>/dev/null || true; rm -rf "$tmpdir"' EXIT
+
+git worktree add --orphan -b badges "$tmpdir"
+
+_svg='<svg xmlns="http://www.w3.org/2000/svg"/>'
+printf '%s' "$_svg" > "$tmpdir/coverage.svg"
+printf '%s' "$_svg" > "$tmpdir/time.svg"
+
+git -C "$tmpdir" add coverage.svg time.svg
+git -C "$tmpdir" commit -m "chore: initialize badges branch [skip ci]"
+
 echo "Badges branch initialized. Run: git push origin badges"
 """
