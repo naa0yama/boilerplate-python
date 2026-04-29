@@ -14,24 +14,34 @@ license: AGPL-3.0
 
 All tasks go through `mise run`:
 
-| Task                  | Command               |
-| --------------------- | --------------------- |
-| Setup                 | `mise run setup`      |
-| Install               | `mise run install`    |
-| Build                 | `mise run build`      |
-| Test                  | `mise run test`       |
-| Coverage view (HTML)  | `mise run test:view`  |
-| Format                | `mise run fmt`        |
-| Format check          | `mise run fmt:check`  |
-| Ruff lint             | `mise run ruff:check` |
-| Type check (mypy)     | `mise run mypy`       |
-| Lint                  | `mise run lint`       |
-| Lint (GitHub Actions) | `mise run lint:gh`    |
-| Pre-commit (required) | `mise run pre-commit` |
-| Pre-push              | `mise run pre-push`   |
-| Docs                  | `mise run docs`       |
-| Docs (live)           | `mise run docs:live`  |
-| Clean                 | `mise run clean`      |
+| Task                  | Command                       |
+| --------------------- | ----------------------------- |
+| Setup                 | `mise run setup`              |
+| Install               | `mise run install`            |
+| Build                 | `mise run build`              |
+| Test                  | `mise run test`               |
+| Coverage view (HTML)  | `mise run test:view`          |
+| Format                | `mise run fmt`                |
+| Format check          | `mise run fmt:check`          |
+| Ruff lint             | `mise run ruff:check`         |
+| Type check (mypy)     | `mise run mypy`               |
+| Lint                  | `mise run lint`               |
+| Lint (GitHub Actions) | `mise run lint:gh`            |
+| Pre-commit (required) | `mise run pre-commit`         |
+| Pre-push              | `mise run pre-push`           |
+| Docs                  | `mise run docs`               |
+| Docs (live)           | `mise run docs:live`          |
+| Clean                 | `mise run clean`              |
+| Audit (deps)          | `mise run audit`              |
+| Badges (init)         | `mise run badges:init`        |
+| Claude Code (install) | `mise run claudecode:install` |
+| CodeQL (install)      | `mise run codeql:install`     |
+| CodeQL (analyze)      | `mise run codeql`             |
+| Dev (start)           | `mise run dev:up`             |
+| Dev (stop)            | `mise run dev:down`           |
+| Dev (exec)            | `mise run dev:exec`           |
+| Dev (status)          | `mise run dev:status`         |
+| Traefik setup         | `mise run traefik:setup`      |
 
 ## Python Coding Rules
 
