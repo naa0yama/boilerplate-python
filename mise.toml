@@ -12,7 +12,7 @@ dprint = "0.54.0"
 ghalint = "1.5.5"
 usage = "3.2.1"
 uv = "latest"
-zizmor = "1.16.0"
+zizmor = "1.16.3"
 
 [task_config]
 includes = [
