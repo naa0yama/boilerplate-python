@@ -264,6 +264,8 @@ files:
     strategy: replace
   - path: .devcontainer/postStartCommand.sh
     strategy: replace
+  - path: .devcontainer/traefik.sh
+    strategy: replace
 
   # .githooks
   - path: .githooks/commit-msg
@@ -376,6 +378,8 @@ files:
     strategy: create_only
   - path: .mise/tasks.toml
     strategy: replace
+  - path: .mise/tools.optional.toml
+    strategy: create_only
 
   # .vscode
   - path: .vscode/settings.json

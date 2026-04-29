@@ -129,7 +129,7 @@ curl -fsSL https://claude.ai/install.sh | sh
 """
 
 ["codeql:install"]
-description = "Create CodeQL database and download query packs"
+description = "Create CodeQL database and download query packs (requires: mise install --config-file .mise/tools.optional.toml)"
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
@@ -177,6 +177,40 @@ echo "==> Results written to ${sarif_out}"
 description = "Check dependencies for known vulnerabilities"
 # CVE-2026-3219: pip itself; no fix version available yet (pip is a tooling dep, not a runtime dep)
 run = "uv run --with pip-audit pip-audit --ignore-vuln CVE-2026-3219"
+
+["traefik:setup"]
+description = "Setup traefik as systemd user service for devcontainer routing (WSL2 host, run once)"
+run = ".devcontainer/traefik.sh setup"
+
+["dev:up"]
+description = "Start devcontainer with traefik routing labels for current worktree"
+run = """
+[ -n "${TMUX:-}" ] && tmux set-option -p @role claude 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @project-path "$(git rev-parse --show-toplevel)" 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "$(basename "$(git rev-parse --show-toplevel)"):$(git branch --show-current)" 2>/dev/null || true
+.devcontainer/traefik.sh up
+[ -n "${TMUX:-}" ] && tmux set-option -p @role "" 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "" 2>/dev/null || true
+"""
+
+["dev:down"]
+description = "Stop and remove devcontainer for current worktree"
+run = ".devcontainer/traefik.sh down"
+
+["dev:exec"]
+description = "Exec into running devcontainer for current worktree"
+run = """
+[ -n "${TMUX:-}" ] && tmux set-option -p @role claude 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @project-path "$(git rev-parse --show-toplevel)" 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "$(basename "$(git rev-parse --show-toplevel)"):$(git branch --show-current)" 2>/dev/null || true
+.devcontainer/traefik.sh exec
+[ -n "${TMUX:-}" ] && tmux set-option -p @role "" 2>/dev/null || true
+[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "" 2>/dev/null || true
+"""
+
+["dev:status"]
+description = "List running devcontainers with their traefik FQDNs"
+run = ".devcontainer/traefik.sh status"
 
 ["badges:init"]
 description = "Initialize badges branch with placeholder SVGs for octocov"

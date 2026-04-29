@@ -1,0 +1,6 @@
+# Optional tools — not installed by default.
+# Install explicitly when needed:
+#   mise install --config-file .mise/tools.optional.toml
+
+[tools]
+codeql = { version = "latest", bin_path = "codeql", platforms = { linux-x64 = { asset_pattern = "codeql-linux64.zip" }, macos-arm64 = { asset_pattern = "codeql-osx64.zip" }, macos-x64 = { asset_pattern = "codeql-osx64.zip" }, windows-x64 = { asset_pattern = "codeql-win64.zip" } } }
