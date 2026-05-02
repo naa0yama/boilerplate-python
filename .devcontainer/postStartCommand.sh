@@ -3,10 +3,14 @@ set -euo pipefail
 
 echo "Validating mounted files and directories..."
 
-# List of expected mounted files and directories (optional)
+# All bind mount targets defined in devcontainer.json (volumes excluded).
+# Each entry must be pre-created in Dockerfile to avoid Docker creating them as root.
 EXPECTED_MOUNTS=(
-	"$HOME/.claude.json"
 	"$HOME/.claude/"
+	"$HOME/.claude.json"
+	"$HOME/.gitconfig"
+	"$HOME/.gitconfig.d/"
+	"$HOME/.config/gh/"
 )
 
 validation_failed=false
@@ -47,11 +51,29 @@ fi
 
 if [ "$installed_version" != "$MISE_PINNED_VERSION" ]; then
 	echo "Installing mise v${MISE_PINNED_VERSION} (installed: ${installed_version:-none})..."
-	MISE_VERSION="v${MISE_PINNED_VERSION}" \
-		curl -fsSL --retry 3 --retry-delay 2 --retry-connrefused \
-		https://mise.jdx.dev/install.sh | sh
+	curl -fsSL --retry 3 --retry-delay 2 --retry-connrefused \
+		https://mise.jdx.dev/install.sh | MISE_VERSION="v${MISE_PINNED_VERSION}" bash
 fi
 mise --version
+
+# GPG homedir: ensure 700 permissions (GPG refuses to run otherwise)
+_gpg_home="${GNUPGHOME:-$HOME/.gnupg}"
+mkdir -p "${_gpg_home}"
+chmod 700 "${_gpg_home}"
+
+# GPG: suppress local agent auto-start only when the host socket is forwarded.
+# Without this guard, VS Code (which provides its own GPG forwarding) would have
+# gpg.conf polluted with no-autostart, breaking all GPG operations.
+_gpg_rtdir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+if [ -S "${_gpg_rtdir}/gnupg/S.gpg-agent" ]; then
+	_gpg_conf="${_gpg_home}/gpg.conf"
+	if [ ! -f "${_gpg_conf}" ] || ! grep -q '^no-autostart' "${_gpg_conf}"; then
+		echo "no-autostart" >> "${_gpg_conf}"
+		echo "GPG: added 'no-autostart' to ${_gpg_conf}"
+	fi
+	unset _gpg_conf
+fi
+unset _gpg_rtdir _gpg_home
 
 chmod +x .githooks/*
 git config --local --unset core.hookspath || true

@@ -45,6 +45,12 @@ _branch() {
 		| cut -c1-63
 }
 
+# Read the container user's UID from devcontainer.json build args
+_container_uid() {
+	_jsonc "$(_workspace)/.devcontainer/devcontainer.json" \
+		| jq -r '.build.args.USER_UID // "1000"'
+}
+
 # Strip single-line comments (//) from JSONC before passing to jq
 _jsonc() {
 	sed -e '/^[[:space:]]*\/\//d' -e 's|[[:space:]]//[^"]*$||g' "${1}"
@@ -300,6 +306,7 @@ UNIT
 
 cmd_up() {
 	local workspace project branch ports run_args tmpfile result container_id
+	local _cuid _gpg_sock _gpg_home
 
 	_host_check
 
@@ -324,12 +331,46 @@ cmd_up() {
 	fi
 
 	run_args='["--label=devcontainer.project='"${project}"'"'
+	run_args="${run_args},\"--env=COLORTERM=${COLORTERM:-}\""
+	run_args="${run_args},\"--env=TERM=${TERM:-xterm-256color}\""
 	run_args="${run_args},\"--env=TRAEFIK_MANAGED=1\""
 	run_args="${run_args},\"--env=TRAEFIK_PROJECT=${project}\""
 	run_args="${run_args},\"--env=TRAEFIK_DYNAMIC_DIR=${TRAEFIK_DYNAMIC_CONTAINER_PATH}\""
 	run_args="${run_args},\"--env=TRAEFIK_API_BASE=http://host.docker.internal:${TRAEFIK_PORT_DASHBOARD}\""
 	run_args="${run_args},\"--mount=type=bind,source=${TRAEFIK_DYNAMIC_DIR},target=${TRAEFIK_DYNAMIC_CONTAINER_PATH}\""
-	run_args="${run_args},\"--add-host=host.docker.internal:host-gateway\"]"
+	run_args="${run_args},\"--add-host=host.docker.internal:host-gateway\""
+
+	# Resolve container UID once for XDG runtime dir paths
+	_cuid="$(_container_uid)"
+
+	# SSH agent forwarding
+	if [ -n "${SSH_AUTH_SOCK:-}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
+		run_args="${run_args},\"--mount=type=bind,source=${SSH_AUTH_SOCK},target=/run/user/${_cuid}/ssh-agent.sock\""
+		run_args="${run_args},\"--env=SSH_AUTH_SOCK=/run/user/${_cuid}/ssh-agent.sock\""
+	else
+		echo "Note: SSH_AUTH_SOCK not available; skipping SSH agent forwarding." >&2
+	fi
+
+	# GPG agent socket forwarding + public keyring
+	_gpg_sock="$(gpgconf --list-dirs agent-socket 2>/dev/null || true)"
+	if [ -n "${_gpg_sock}" ] && [ -S "${_gpg_sock}" ]; then
+		run_args="${run_args},\"--mount=type=bind,source=${_gpg_sock},target=/run/user/${_cuid}/gnupg/S.gpg-agent\""
+	else
+		echo "Note: GPG agent socket not available; skipping GPG forwarding." >&2
+	fi
+	# S.gpg-agent.extra is intentionally NOT forwarded: gpg(1) connects to S.gpg-agent
+	# only. The extra socket is for restricted remote clients (e.g., SSH RemoteForward);
+	# nothing inside this container needs it.
+	# GPG public keyring: needed so gpg knows which key to request from the agent
+	_gpg_home="${GNUPGHOME:-$HOME/.gnupg}"
+	if [ -f "${_gpg_home}/pubring.kbx" ]; then
+		run_args="${run_args},\"--mount=type=bind,source=${_gpg_home}/pubring.kbx,target=/home/cuser/.gnupg/pubring.kbx,readonly\""
+	fi
+	# trustdb.gpg is intentionally NOT mounted: GPG writes maintenance updates to it,
+	# and a readonly mount causes write warnings on every invocation. GPG auto-creates
+	# a fresh trustdb inside the container; trust is not needed for signing.
+
+	run_args="${run_args}]"
 
 	# --override-config replaces (not merges) devcontainer.json, so we must
 	# merge our runArgs into the full base config before passing it.

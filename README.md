@@ -59,6 +59,10 @@ mise use --global node@lts
 mise use --global devcontainer-cli@0.86.0
 ```
 
+`dev:up` 実行時に、ホストで `ssh-agent` と `gpg-agent` が起動していれば
+SSH エージェント転送と GPG 署名がコンテナ内で自動的に有効になります。
+未起動の場合は起動時に警告が出力されますが、開発は続行できます。
+
 ### 初回セットアップ (WSL2 ホストで1回だけ実行)
 
 前提条件のインストール後、以下を実行します。
