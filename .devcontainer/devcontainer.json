@@ -21,6 +21,7 @@
 		"type=bind,source=${localEnv:HOME}/.claude,target=/home/cuser/.claude",
 		"type=bind,source=${localEnv:HOME}/.claude.json,target=/home/cuser/.claude.json",
 		// Git
+		"type=bind,source=${localEnv:HOME}/.gitconfig,target=/home/cuser/.gitconfig",
 		"type=bind,source=${localEnv:HOME}/.gitconfig.d,target=/home/cuser/.gitconfig.d",
 		// GitHub
 		"type=bind,source=${localEnv:HOME}/.config/gh,target=/home/cuser/.config/gh",
