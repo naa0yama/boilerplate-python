@@ -29,8 +29,6 @@ All tasks use `mise run <task>`:
 | Audit (deps)          | `mise run audit`              |
 | Badges (init)         | `mise run badges:init`        |
 | Claude Code (install) | `mise run claudecode:install` |
-| CodeQL (install)      | `mise run codeql:install`     |
-| CodeQL (analyze)      | `mise run codeql`             |
 | Dev (start)           | `mise run dev:up`             |
 | Dev (stop)            | `mise run dev:down`           |
 | Dev (exec)            | `mise run dev:exec`           |
