@@ -18,6 +18,7 @@ if grep -qE '^Merge ' <<< "$first_line"; then
 fi
 
 # Conventional Commits pattern
+# Types match dot_gitconfig.d/message.txt
 commit_regex='^(feat|update|fix|style|refactor|docs|perf|test|build|ci|chore|remove|revert)(\([a-zA-Z0-9_\-]+\))?!?: .+$'
 
 if ! echo "$first_line" | grep -qE "$commit_regex"; then
@@ -50,6 +51,15 @@ if ! echo "$first_line" | grep -qE "$commit_regex"; then
     echo "現在のメッセージ:" >&2
     echo "  $first_line" >&2
     echo "" >&2
+    exit 1
+fi
+
+# Verify colon + space after type
+if ! echo "$first_line" | grep -qE '^[a-z]+(\([a-zA-Z0-9_\-]+\))?!?: .+$'; then
+    echo "typeの後には「: 」(コロン + 半角スペース)が必要です" >&2
+    echo "" >&2
+    echo "現在のメッセージ:" >&2
+    echo "  $first_line" >&2
     exit 1
 fi
 

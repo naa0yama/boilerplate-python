@@ -109,8 +109,11 @@ RUN echo "**** Directory Create ****" && \
 	~/.local/bin \
 	~/.local/share \
 	~/.local/share/claude \
-	~/.local/share/mise && \
-	chmod 700 ~/.gnupg && \
+	~/.local/share/mise \
+	~/.ssh \
+	\
+	&& \
+	chmod 700 ~/.gnupg ~/.ssh && \
 	touch \
 	~/.claude.json \
 	~/.gitconfig \

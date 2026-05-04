@@ -51,7 +51,7 @@ jobs:
         with:
           install_args: dprint
           # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
-          version: 2026.4.23
+          version: 2026.4.24
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -61,8 +61,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           HEAD_SHA: ${{ github.sha }}
         run: |
-          # tagpr has a limited retry window for ListPullRequestsWithCommit.
-          # Poll up to 120s so that latestPullRequest() succeeds on its first attempt.
+          # tagpr v1.18.3 has a built-in 6-second retry window for
+          # ListPullRequestsWithCommit, which is insufficient for this
+          # repo's squash-merge workflow. Poll up to 120s so that
+          # latestPullRequest() succeeds on its first attempt.
+          # Remove this step once Songmu/tagpr extends its retry window.
+          # ref: https://github.com/Songmu/tagpr/issues/330
           for i in $(seq 1 24); do
             count=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" \
               --jq 'length' 2>/dev/null || echo 0)
@@ -74,6 +78,7 @@ jobs:
             sleep 5
           done
           # HEAD may legitimately have no PR (direct push, workflow re-run).
+          # Let tagpr's own logic decide rather than failing the job.
           echo "::warning::commit-to-PR index did not populate within 120s; proceeding"
 
       - id: tagpr

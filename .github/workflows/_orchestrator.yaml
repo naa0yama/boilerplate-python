@@ -90,8 +90,8 @@ jobs:
               && needs.detect-changes.outputs.python == 'true'))
     uses: ./.github/workflows/python-ci.yaml
     permissions:
+      contents: write # octocov badge push
       actions: read # octocov artifact
-      contents: write # push coverage badges to badges branch
       pull-requests: write # octocov comment
 
   audit:

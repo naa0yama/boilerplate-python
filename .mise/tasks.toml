@@ -117,100 +117,20 @@ find . -type d -name __pycache__ -not -path './.venv/*' -exec rm -rf {} + 2>/dev
 """
 
 ["claudecode:install"]
-description = "Install Claude Code CLI"
+description = "Install Claude Code to ~/.local/bin via official installer"
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
-if command -v claude &>/dev/null; then
-	echo "Claude Code is already installed: $(claude --version)"
-	exit 0
+if command -v claude > /dev/null 2>&1; then
+  echo "Claude Code already installed: $(claude --version)"
+  exit 0
 fi
-curl -fsSL https://claude.ai/install.sh | bash
+case "$(uname -s)" in
+	Linux|Darwin) ;;
+	*) echo "Unsupported OS: $(uname -s)" >&2; exit 1 ;;
+esac
+curl -sfSL --retry 3 --retry-delay 2 --retry-connrefused https://claude.ai/install.sh | bash
 """
-
-["codeql:install"]
-description = "Create CodeQL database and download query packs (requires: mise install --config-file .mise/tools.optional.toml)"
-run = """
-#!/usr/bin/env bash
-set -euo pipefail
-
-db_dir="tmp/codeql-db"
-
-echo '==> Downloading CodeQL query packs...'
-codeql pack download codeql/python-queries
-
-rm -rf "${db_dir}"
-echo '==> Creating CodeQL database for Python...'
-codeql database create "${db_dir}" \
-	--language=python \
-	--source-root=src \
-	--overwrite
-
-echo "==> CodeQL database created at ${db_dir}"
-echo '    Run analysis: mise run codeql'
-"""
-
-[codeql]
-description = "Run CodeQL analysis (SARIF output)"
-run = """
-#!/usr/bin/env bash
-set -euo pipefail
-
-db_dir="tmp/codeql-db"
-sarif_out="tmp/codeql-results.sarif"
-
-if [ ! -d "${db_dir}" ]; then
-	echo 'Error: CodeQL database not found. Run "mise run codeql:install" first.' >&2
-	exit 1
-fi
-
-echo '==> Running CodeQL analysis...'
-codeql database analyze "${db_dir}" codeql/python-queries \
-	--format=sarif-latest \
-	--output="${sarif_out}" \
-	--threads=0
-
-echo "==> Results written to ${sarif_out}"
-"""
-
-[audit]
-description = "Check dependencies for known vulnerabilities"
-# CVE-2026-3219: pip itself; no fix version available yet (pip is a tooling dep, not a runtime dep)
-run = "uv run --with pip-audit pip-audit --ignore-vuln CVE-2026-3219"
-
-["traefik:setup"]
-description = "Setup traefik as systemd user service for devcontainer routing (WSL2 host, run once)"
-run = ".devcontainer/traefik.sh setup"
-
-["dev:up"]
-description = "Start devcontainer with traefik routing labels for current worktree"
-run = """
-[ -n "${TMUX:-}" ] && tmux set-option -p @role claude 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @project-path "$(git rev-parse --show-toplevel)" 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "$(basename "$(git rev-parse --show-toplevel)"):$(git branch --show-current)" 2>/dev/null || true
-.devcontainer/traefik.sh up
-[ -n "${TMUX:-}" ] && tmux set-option -p @role "" 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "" 2>/dev/null || true
-"""
-
-["dev:down"]
-description = "Stop and remove devcontainer for current worktree"
-run = ".devcontainer/traefik.sh down"
-
-["dev:exec"]
-description = "Exec into running devcontainer for current worktree"
-run = """
-[ -n "${TMUX:-}" ] && tmux set-option -p @role claude 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @project-path "$(git rev-parse --show-toplevel)" 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "$(basename "$(git rev-parse --show-toplevel)"):$(git branch --show-current)" 2>/dev/null || true
-.devcontainer/traefik.sh exec
-[ -n "${TMUX:-}" ] && tmux set-option -p @role "" 2>/dev/null || true
-[ -n "${TMUX:-}" ] && tmux set-option -p @pane-name "" 2>/dev/null || true
-"""
-
-["dev:status"]
-description = "List running devcontainers with their traefik FQDNs"
-run = ".devcontainer/traefik.sh status"
 
 ["badges:init"]
 description = "Initialize badges branch with placeholder SVGs for octocov"
@@ -237,3 +157,28 @@ git -C "$tmpdir" commit -m "chore: initialize badges branch [skip ci]"
 
 echo "Badges branch initialized. Run: git push origin badges"
 """
+
+[audit]
+description = "Check dependencies for known vulnerabilities"
+# CVE-2026-3219: pip itself; no fix version available yet (pip is a tooling dep, not a runtime dep)
+run = "uv run --with pip-audit pip-audit --ignore-vuln CVE-2026-3219"
+
+["traefik:setup"]
+description = "Setup Traefik as systemd user service for devcontainer routing (run once on host)"
+run = "graft denv traefik setup"
+
+["dev:up"]
+description = "Start devcontainer with Traefik routing labels for current worktree"
+run = "graft denv up"
+
+["dev:down"]
+description = "Stop and remove devcontainer for current worktree"
+run = "graft denv down"
+
+["dev:exec"]
+description = "Exec into running devcontainer for current worktree"
+run = "graft denv exec"
+
+["dev:status"]
+description = "List running devcontainers with their Traefik FQDNs"
+run = "graft denv status"
