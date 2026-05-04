@@ -42,7 +42,7 @@ fi
 # mise bootstrap: install or upgrade to pinned version
 export PATH="$HOME/.local/bin:$PATH"
 ## renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
-MISE_PINNED_VERSION="2026.4.23"
+MISE_PINNED_VERSION="2026.4.24"
 
 installed_version=""
 if command -v mise > /dev/null 2>&1; then
@@ -74,6 +74,11 @@ if [ -S "${_gpg_rtdir}/gnupg/S.gpg-agent" ]; then
 	unset _gpg_conf
 fi
 unset _gpg_rtdir _gpg_home
+
+# SSH: populate known_hosts with github.com host keys inside the container
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+ssh-keyscan -H github.com > ~/.ssh/known_hosts 2>/dev/null
+chmod 600 ~/.ssh/known_hosts
 
 chmod +x .githooks/*
 git config --local --unset core.hookspath || true
