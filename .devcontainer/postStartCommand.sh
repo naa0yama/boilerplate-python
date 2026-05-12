@@ -42,7 +42,7 @@ fi
 # mise bootstrap: install or upgrade to pinned version
 export PATH="$HOME/.local/bin:$PATH"
 ## renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
-MISE_PINNED_VERSION="2026.5.0"
+MISE_PINNED_VERSION="2026.5.1"
 
 installed_version=""
 if command -v mise > /dev/null 2>&1; then
