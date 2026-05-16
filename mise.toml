@@ -6,7 +6,7 @@
 
 [tools]
 "aqua:cli/cli" = "2.91.0"
-"github:naa0yama/graft" = "0.5.4"
+"github:naa0yama/graft" = "0.5.5"
 actionlint = "1.7.12"
 dprint = "0.54.0"
 ghalint = "1.5.6"
