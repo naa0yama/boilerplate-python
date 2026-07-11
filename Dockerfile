@@ -18,7 +18,7 @@ ARG DEBIAN_FRONTEND=noninteractive \
 #- -------------------------------------------------------------------------------------------------
 #- Builder Base
 #-
-FROM --platform=$BUILDPLATFORM python:3.14.4-slim-trixie@sha256:c11aee3b3cae066f55d1e9318fc812673aa6557073b0db0d792b59491b262e0c AS builder-base
+FROM --platform=$BUILDPLATFORM python:3.14.6-slim-trixie@sha256:b877e50bd90de10af8d82c57a022fc2e0dc731c5320d762a27986facfc3355c1 AS builder-base
 
 ARG DEBIAN_FRONTEND \
 	PIP_DEFAULT_TIMEOUT \
