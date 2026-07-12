@@ -5,7 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Cache virtualenv
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       with:
         path: .venv
         key: venv-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pyproject.toml', 'uv.lock') }}
@@ -13,7 +13,7 @@ runs:
           venv-v1-${{ runner.os }}-${{ runner.arch }}-
 
     - name: Cache mise tools
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       with:
         path: ~/.local/share/mise
         key: mise-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('mise.toml') }}
@@ -21,14 +21,14 @@ runs:
           mise-v1-${{ runner.os }}-${{ runner.arch }}-
 
     - name: Cache dprint plugins
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       with:
         path: ~/.cache/dprint
         key: dprint-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('dprint.jsonc') }}
         restore-keys: |
           dprint-v1-${{ runner.os }}-${{ runner.arch }}-
 
-    - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+    - uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
       with:
         cache: false
         # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
