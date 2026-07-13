@@ -11,7 +11,7 @@ actionlint = "1.7.12"
 dprint = "0.55.1"
 ghalint = "1.5.6"
 tmux = "3.6a"
-usage = "3.5.3"
+usage = "3.5.4"
 uv = "latest"
 zizmor = "1.26.1"
 
