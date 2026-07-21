@@ -13,7 +13,7 @@ ghalint = "1.5.6"
 tmux = "3.6a"
 usage = "3.5.4"
 uv = "latest"
-zizmor = "1.26.1"
+zizmor = "1.27.0"
 
 [task_config]
 includes = [
