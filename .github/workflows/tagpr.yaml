@@ -51,7 +51,7 @@ jobs:
         with:
           install_args: dprint
           # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
-          version: 2026.7.5
+          version: 2026.7.6
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
