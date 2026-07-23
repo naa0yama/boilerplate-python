@@ -12,7 +12,7 @@ runs:
       with:
         install_args: uv
         # renovate: datasource=github-releases packageName=jdx/mise versioning=calver:YYYY.M.D automerge=true
-        version: 2026.4.28
+        version: 2026.7.7
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
