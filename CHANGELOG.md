@@ -3,6 +3,7 @@
 ## [v0.2.3](https://github.com/naa0yama/boilerplate-python/compare/v0.2.2...v0.2.3) - 2026-07-23
 
 ### Dependency Updates 👒
+
 - chore(deps): update dependency jdx/mise to v2026.4.25 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/784
 - chore(deps): update dependency jdx/mise to v2026.4.27 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/786
 - chore(deps): update dependency jdx/mise to v2026.4.28 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/787
