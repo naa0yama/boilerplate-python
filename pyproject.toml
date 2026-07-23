@@ -35,7 +35,7 @@ docs = [
 	"sphinx-pyproject>=0.3,<0.4",
 ]
 linting = [
-	"mypy>=1.20,<1.21",
+	"mypy>=2.3,<2.4",
 	"ruff>=0.12.0",
 ]
 tests = [
