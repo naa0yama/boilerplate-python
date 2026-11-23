@@ -19,7 +19,7 @@ runs:
 
     - name: Upload actionlint SARIF
       if: success() || failure()
-      uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+      uses: github/codeql-action/upload-sarif@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
       with:
         sarif_file: results-actionlint.sarif
         category: actionlint
@@ -27,7 +27,7 @@ runs:
     - name: Run zizmor
       id: zizmor
       if: success() || failure()
-      uses: zizmorcore/zizmor-action@70fb788f84895a7701f5643d103d587e460b5c99 # v0.6.3
+      uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
       with:
         persona: pedantic
 
