@@ -8,7 +8,7 @@
 "aqua:cli/cli" = "2.98.0"
 "github:naa0yama/graft" = "0.5.11"
 actionlint = "1.7.12"
-dprint = "0.57.0"
+dprint = "0.57.4"
 ghalint = "1.5.6"
 tmux = "3.6a"
 usage = "3.6.0"
