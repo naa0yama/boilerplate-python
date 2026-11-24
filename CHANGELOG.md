@@ -1,5 +1,95 @@
 # Changelog
 
+## [v0.2.3](https://github.com/naa0yama/boilerplate-python/compare/v0.2.2...v0.2.3) - 2026-11-24
+
+### Dependency Updates 👒
+- chore(deps): update dependency jdx/mise to v2026.4.25 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/784
+- chore(deps): update dependency jdx/mise to v2026.4.27 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/786
+- chore(deps): update dependency jdx/mise to v2026.4.28 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/787
+- chore(deps): update dependency ghalint to v1.5.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/788
+- chore(deps): update github/codeql-action action to v4.35.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/789
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/791
+- chore(deps): update dependency jdx/mise to v2026.5.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/792
+- chore(deps): update dependency github:naa0yama/graft to v0.5.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/794
+- chore(deps): update dependency github:naa0yama/graft to v0.5.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/795
+- chore(deps): update dependency jdx/mise to v2026.5.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/796
+- chore(deps): update dependency github:naa0yama/graft to v0.5.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/797
+- chore(deps): update actions/labeler action to v6.1.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/798
+- chore(deps): update dependency jdx/mise to v2026.5.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/800
+- chore(deps): update github/codeql-action action to v4.35.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/801
+- chore(deps): update dependency jdx/mise to v2026.5.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/802
+- chore(deps): update dependency github:naa0yama/graft to v0.5.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/803
+- chore(deps): update dependency jdx/mise to v2026.5.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/804
+- chore(deps): update songmu/tagpr action to v1.19.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/805
+- chore(deps): update dependency jdx/mise to v2026.5.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/806
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/807
+- chore(deps): update dependency jdx/mise to v2026.5.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/808
+- chore(deps): update dependency aqua:cli/cli to v2.96.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/783
+- chore(deps): update dependency github:naa0yama/graft to v0.5.9 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/810
+- chore(deps): update dependency jdx/mise to v2026.5.18 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/811
+- chore(deps): update python docker tag to v3.14.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/812
+- chore(deps): update dependency dprint to v0.55.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/814
+- chore(deps): update dependency jdx/mise to v2026.7.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/815
+- chore(deps): update dependency usage to v3.5.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/793
+- chore(deps): update dependency zizmor to v1.26.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/816
+- chore(deps): update docker/dockerfile docker tag to v1.25.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/809
+- chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/818
+- chore(deps): update all action update by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/813
+- chore(deps): update dependency usage to v3.5.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/819
+- chore(deps): update dependency jdx/mise to v2026.7.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/820
+- chore(deps): update dependency jdx/mise to v2026.7.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/821
+- chore(deps): update github/codeql-action action to v4.37.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/822
+- chore(deps): update dependency jdx/mise to v2026.7.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/823
+- chore(deps): update actions/labeler action to v6.2.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/824
+- chore(deps): update dependency jdx/mise to v2026.7.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/825
+- chore(deps): update dependency jdx/mise to v2026.7.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/826
+- chore(deps): update dependency github:naa0yama/graft to v0.5.10 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/827
+- chore(deps): update dependency github:naa0yama/graft to v0.5.11 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/828
+- chore(deps): update dependency jdx/mise to v2026.4.28 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/829
+- chore(deps): update dependency zizmor to v1.27.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/831
+- chore(deps): update dependency dprint to v0.55.2 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/832
+- chore(deps): update dependency jdx/mise to v2026.7.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/833
+- chore(deps): update dependency jdx/mise to v2026.7.6 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/834
+- chore(deps): update dependency usage to v3.5.5 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/835
+- chore(deps): update songmu/tagpr action to v1.20.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/836
+- chore(deps): update zizmorcore/zizmor-action action to v0.6.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/837
+- chore(deps): update dependency jdx/mise to v2026.7.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/838
+- chore(deps): update dependency jdx/mise to v2026.7.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/839
+- chore(deps): update github/codeql-action action to v4.37.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/840
+- chore(deps): update jdx/mise-action action to v4.2.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/841
+- chore(deps): update dependency jdx/mise to v2026.7.15 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/843
+- chore(deps): update dependency jdx/mise to v2026.7.15 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/844
+- chore(deps): update dependency usage to v3.5.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/845
+- chore(deps): update all action update by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/846
+- chore(deps): update dependency usage to v3.6.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/847
+- chore(deps): update dependency zizmor to v1.28.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/848
+- chore(deps): update all action update by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/849
+- chore(deps): update dependency jdx/mise to v2026.7.18 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/850
+- chore(deps): update dependency jdx/mise to v2026.7.18 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/851
+- chore(deps): update dependency aqua:cli/cli to v2.98.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/852
+- chore(deps): update dependency dprint to v0.56.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/853
+- chore(deps): update dependency jdx/mise to v2026.8.14 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/854
+- chore(deps): update dependency zizmor to v1.29.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/855
+- chore(deps): update docker/dockerfile docker tag to v1.26.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/856
+- chore(deps): update dependency jdx/mise to v2026.8.15 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/857
+- chore(deps): update dependency jdx/mise to v2026.8.15 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/858
+- chore(deps): update dependency jdx/mise to v2026.8.16 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/859
+- chore(deps): update dependency jdx/mise to v2026.8.16 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/860
+- chore(deps): update zizmorcore/zizmor-action action to v0.6.3 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/861
+- chore(deps): update dependency dprint to v0.57.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/862
+- chore(deps): update dependency zizmor to v1.30.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/863
+- chore(deps): update dependency dprint to v0.57.4 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/869
+- chore(deps): update dependency ghalint to v1.5.7 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/870
+- chore(deps): update dependency zizmor to v1.30.1 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/871
+- chore(deps): update python docker tag to v3.14.8 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/872
+- chore(deps): update all action update by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/873
+- chore(deps): update dependency aqua:cli/cli to v2.105.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/874
+- chore(deps): update dependency ghalint to v1.6.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/876
+- chore(deps): update dependency dprint to v0.65.0 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/875
+- chore(deps): update dependency jdx/mise to v2026.11.11 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/877
+- chore(deps): update dependency jdx/mise to v2026.11.12 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/879
+- chore(deps): update dependency jdx/mise to v2026.11.12 by @renovate[bot] in https://github.com/naa0yama/boilerplate-python/pull/880
+
 ## [v0.2.2](https://github.com/naa0yama/boilerplate-python/compare/v0.2.1...v0.2.2) - 2026-05-04
 
 ### Features 🎉
