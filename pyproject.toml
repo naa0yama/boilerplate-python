@@ -41,7 +41,7 @@ linting = [
 tests = [
 	"pytest>=9.0.3",
 	"pytest-cov>=7.1,<7.2",
-	"pytest-mock>=3.15,<3.16",
+	"pytest-mock>=3.17,<3.18",
 ]
 types = [
 	"types-requests>=2.28.11.8",
